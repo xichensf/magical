@@ -9,7 +9,7 @@ Please check our paper "Mapping cell type regulatory triads modulated by disease
 
 # Input files
 
-Tools and step-by-step intructions of scRNA-seq and scATAC-seq data processing are widely available online. We realize that researchers have different preference on data processing. And in many cases, the scRNA-seq and scATAC-seq data are profiled seperately and then processed using very different tools. Therefore, we did not specificity the preprocessing softwarres for MAGICAL input file preparation. The MAGICAL scripts will only need read count and cell meta information about the multioimc data. These information is very fundamental and should be easily obtained from any data processing tools. We prepared the demo input files using Seurat V4 and ArchR V1. 
+The scRNA-seq and scATAC-seq data sould be preprocessed and labelled. Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Seurat, ArchR. We realize that researchers may have different preference on data processing especially when there are multiple conditions, batches and samples involved. We will not talk about data integration here. Instead, we provide a R script to show how to prepare input files for MAGICAL based on the intergated single cell data. MAGICAL only needs gene symbols, peak coordinates, read count and cell meta information. These information is very fundamental and should be easily obtained from a single cell multioimc dataset. 
 
 
 
