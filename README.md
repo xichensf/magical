@@ -4,7 +4,7 @@ MAGICAL analyzes paired scRNA-seq and scATAC-seq datasets from different conditi
 
 Please check our paper "Mapping cell type regulatory triads modulated by disease from single-cell multiomics data" for more details. Any questions about the technical details of the paper or about this MAGICAL package can be emailed to: Xi Chen, xchen@flatironinstute.org
 
-MATLAB and R scripts are provided seperately for ***two condition analysis*** (inferring disease modulated regulatory triads) or ***one condition analysis*** (inferring active regulatory triad). 
+**MATLAB** and **R** scripts are provided seperately for ***two condition analysis*** (inferring disease modulated regulatory triads) or ***one condition analysis*** (inferring active regulatory triad). 
 
 
 # Input files
