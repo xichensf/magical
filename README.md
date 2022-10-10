@@ -42,7 +42,7 @@ A six column matrix with genome coordinates (*left_chr, left_point1, left_point2
 
 **Candidate gene and peak input files**:
 
-We highly recommand users to prepare these two files in a similar way (i.e., DEG and DAS differential at level, DEG and DAS at both single cell and psuedobulk levels, active genes and active peaks in the selected cell type). The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAC-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selected for the cell type to be analyzed. 
+We highly recommand users to prepare these two files in a similar way (i.e., differentially expressed genes and differentially acessible peaks, or actively expressed genes and actively accessible peaks in the selected cell type). The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAC-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selected for the cell type to be analyzed. 
 
 
 # MAGICAL analysis
