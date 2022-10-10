@@ -36,12 +36,12 @@ A binary matrix (can also be continuous but will be converted to binary) with pe
 
 **Topological assciated domain file (prior)**:
 
-A six column matrix with genome coordinates (left_chr, left_point1, left_point2, right_chr, right_point1, right_point2) for the two boundaries of each domain. A no proper TAD information or HiC profile is available for the context being studied. We also provide an option to use 200kb to TSS or 500kb to TSS as prior to initally pair peaks and genes. 
+A six column matrix with genome coordinates (left_chr, left_point1, left_point2, right_chr, right_point1, right_point2) for the two boundaries of each domain. A no proper TAD information or HiC profile is available for the context being studied. We also provide an option to use 200kb to TSS or 500kb to TSS as prior to initally pair peaks and genes. Please ensure the reference genome used for scATAC-seq and TAD are the same. We noted that most HiC profiles were on hg19 while scATACseq is more recent and usually based on hg38. 
 
 
 **Candidate gene and peak input files**:
 
-We highly recommand users to prepare these two files in a similar way (i.e., DEG and DAS differential at level, DEG and DAS at both single cell and psuedobulk levels, active genes and active peaks in the selected cell type). The file names should be (Cell type name) candidate genes.txt and (Cell type name) candidate peaks.txt, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAX-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selection for the cell type to be analyzed. 
+We highly recommand users to prepare these two files in a similar way (i.e., DEG and DAS differential at level, DEG and DAS at both single cell and psuedobulk levels, active genes and active peaks in the selected cell type). The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAX-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selected for the cell type to be analyzed. 
 
 
 # MAGICAL analysis
@@ -56,7 +56,7 @@ Next, for each candidate triad, MAGICAL uses a Bayesian framework to iteratively
 
 
 # Output file
-A triad file containing gene, chromatin site and regulator information will be finally output by MAGICAL. As the full list of candidate triads can be long, MAGICAL will use its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write into the output file. Users can adjust these thresholds in the scripts to allow more or fewer output triads. 
+For each cell type, a triad file containing gene, chromatin site and regulator information will be finally output by MAGICAL as "(Cell type) MAGICAL triads.txt". As the full list of candidate triads can be long, MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can definitely adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each triad are respectively identfied, we give higher priority on the peak-gene interaction when we select the final triads so it is possible to see some triads in the output file without high score TF bindings. These interactions could be also important.  
 
 
 
