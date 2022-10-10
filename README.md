@@ -17,25 +17,27 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 
 **scRNA-seq files**:
 
-*Read count table*: A three-column matrix with *gene index*, *cell index*, and *RNA read count*
+*Read count table*: a three-column matrix with *gene index*, *cell index*, and *RNA read count*
 
-*Gene list*: The order of *gene names* should be corresponding to the order in the read count table
+*Gene list*: a two-column matrix with 'gene index' and 'gene name'.
 
-*Cell meta*: A four-column matrix with *cell barcode*, *cell type label*, *sample/subject ID*, and *condition* (can be more than two conditions but only up to two conditions will be analyzed in each run). We note that the same cell barcodes may be used in single cell data from different samples. Therefore, once cell type is set, the preprocessing R script will internally re-index cells of each sample/subject ID instead of using their original cell barcode. Here, each sample must have a unique name and this name should be the same in the scATAC-seq data (to allow MAGICAL to pair data together). 
+*Cell meta*: a five-column matrix with *cell index*, *cell barcode*, *cell type label*, *sample/subject ID*, and *condition* (can be more than two conditions but only up to two conditions will be analyzed in each run). Here, each sample must have a unique name and this name should be the same in the scATAC-seq data (to allow MAGICAL to pair data together). 
 
 
 **scATAC-seq files**:
 
-*Read count table*: A three-column matrix with *peak index*, *cell index*, and *ATAC read count*
+*Read count table*: a three-column matrix with *peak index*, *cell index*, and *ATAC read count*
 
-*Peak list*: A three-column matrix with *chr*, *peak_point1*, *peak_point2*. The order of peaks (chr, point1, point2) should be corresponding to the order in the read count table
+*Peak list*: a four-column matrix with *peak index*, *chr*, *peak_point1*, *peak_point2*. The order of peaks (chr, point1, point2) should be corresponding to the order in the read count table
 
-*Cell meta*: A four-column matrix with *cell barcode* (can be different from the scRNA-seq cell barcodes), *cell type label*, *sample/subject ID* (must be the same as scRNA-seq sample ID), and *condition* (must be the same as scRNA-seq condition)
+*Cell meta*: a five-column matrix with *cell index*, *cell barcode* (can be different from the scRNA-seq cell barcodes), *cell type label*, *sample/subject ID* (must be the same as scRNA-seq sample ID), and *condition* (must be the same as scRNA-seq condition)
 
 
 **Transcriotion factor motif mapping file (prior)**:
 
-A binary matrix (can also be continuous but will be converted to binary) with peaks as rows and transcription factor motifs as columns. (This can be easily obtained using ArchR or Signac during scATAC-seq data processing) 
+*TF-peak mapping*: a three-column matrix with *peak index*, *motif index*, and *binary mapping*.
+
+*Motif names*: a two-column matrix with *motif index* and *motif names.
 
 
 **Topologically associating domain file (prior)**:
@@ -43,7 +45,11 @@ A binary matrix (can also be continuous but will be converted to binary) with pe
 A six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. A no proper TAD information or HiC profile is available for the context being studied. We also provide an option to use 200kb to TSS or 500kb to TSS as prior to initally pair peaks and genes. Please ensure the reference genome used for scATAC-seq and TAD are the same. We noted that most HiC profiles were on hg19 while scATACseq is more recent and usually based on hg38. 
 
 
-**DEG and DAS input files**:
+**DEG input file**:
+
+
+
+**DAS input file**:
 
 As differential calling is done seperately for genes and peaks using different tools, we highly recommand users to prepare these two files using similar differential statistics cutoffs. The file names should be "(Cell type) DEG.txt" with gene symbols and "(Cell type) DAS.txt" with peak coordinates. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge.  
 
