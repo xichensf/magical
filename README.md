@@ -9,12 +9,11 @@ Please check our paper "Mapping cell type regulatory triads modulated by disease
 
 # Input files
 
-Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Seurat, ArchR. We realize that researchers may have different preference on data processing especially when there are multiple conditions, batches and samples involved. MAGICAL only needs gene symbols, peak coordinates, read count and cell meta information like cell type, sample/subject ID and sample group/condition. These information is very fundamental and should be easily obtained from a single cell multioimc dataset. We provide a R script to demo how to extra the following input files for MAGICAL from the intergated single cell data. 
+Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Seurat, ArchR. We realize that researchers may have different preference on data processing especially when there are multiple conditions, batches and samples involved. MAGICAL only needs gene symbols, peak coordinates, read count and cell meta information like cell type, sample/subject ID and sample group/condition. These information is very fundamental and should be easily obtained from any single cell multioimc dataset. We provide a ***R script*** to demo how to extra the following input files for MAGICAL from the intergated single cell data. 
 
 **Cell type**:
 
 The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. MAGICAL infer regulatory triads for each cell type. Therefore, users need to specificy one cell type and then use the provided R script to prepare the following input files. 
-
 
 **scRNA-seq files**:
 
@@ -22,7 +21,8 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 
 *Gene list*: The order of *gene names* should be corresponding to the order in the read count table
 
-*Cell meta*: A four-column matrix with *cell barcode*, *cell type label*, *sample/subject ID*, and *condition* (can be more than two conditions but only up to two conditions will be analyzed in each run)
+*Cell meta*: A four-column matrix with *cell barcode*, *cell type label*, *sample/subject ID*, and *condition* (can be more than two conditions but only up to two conditions will be analyzed in each run). We note that the same cell barcodes may be used in single cell data from different samples. Therefore, once cell type is set, MAGICAL will internally re-index cells of each sample/subject ID instead of using their original cell barcode. Here, each sample must have a unique name and this name should be the same in the scATAC-seq data (to allow MAGICAL to pair data together). 
+
 
 **scATAC-seq files**:
 
@@ -30,7 +30,7 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 
 *Peak list*: A three-column matrix with *chr*, *peak_point1*, *peak_point2*. The order of peaks (chr, point1, point2) should be corresponding to the order in the read count table
 
-*Cell meta*: A four-column matrix with *cell barcode* (can be different from the scRNA-seq cell barcodes), *cell type label* (must be the same as scRNA-seq cell type label), *sample/subject ID* (must be the same as scRNA-seq sample ID), and *condition* (must be the same as scRNA-seq condition)
+*Cell meta*: A four-column matrix with *cell barcode* (can be different from the scRNA-seq cell barcodes), *cell type label*, *sample/subject ID* (must be the same as scRNA-seq sample ID), and *condition* (must be the same as scRNA-seq condition)
 
 
 **Transcriotion factor motif mapping file (prior)**:
