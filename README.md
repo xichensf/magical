@@ -4,7 +4,7 @@ MAGICAL analyzes paired scRNA-seq and scATAC-seq datasets from different conditi
 
 Please check our paper "Mapping cell type regulatory triads modulated by disease from single-cell multiomics data" for more details. Any questions about the technical details of the paper or about this MAGICAL package can be emailed to: Xi Chen, xchen@flatironinstute.org
 
-**MATLAB** and **R** scripts are provided seperately for ***two condition analysis*** (inferring disease modulated regulatory triads) or ***one condition analysis*** (inferring active regulatory triad). 
+**MATLAB** and **R** scripts are provided. 
 
 
 # Input files
@@ -42,7 +42,7 @@ A six column matrix with genome coordinates (*left_chr, left_point1, left_point2
 
 **Candidate gene and peak input files**:
 
-We highly recommand users to prepare these two files in a similar way (i.e., differentially expressed genes and differentially acessible peaks, or actively expressed genes and actively accessible peaks in the selected cell type). The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAC-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selected for the cell type to be analyzed. 
+We highly recommand users to prepare these two files in a similar way. The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAC-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selected for the cell type to be analyzed. 
 
 
 # MAGICAL analysis
@@ -51,11 +51,9 @@ MAGICAL uses transcription factor (TF) motif and topological associated domains 
 
 To identify candidate disease-modulated triads, differentially accessible sites (DAS) within each cell type are associated with TFs by motif sequence matching. DAS are then linked to differentially expressed genes (DEG) in that cell type by requiring them to be within the same TAD or within a user controlled distance. 
 
-To identify active triads, actively accessble chromatin sites within each cell type are associated with TFs by motif sequence matching. These sites are then linked to actively expressed genes in that cell type by requiring them to be within the same TAD or within a user controlled distance. 
-
 Next, for each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected.
 
-For each cell type, a output file containing gene, chromatin site and regulator information will be finally produced by MAGICAL, with the name as "(Cell type) MAGICAL triads.txt". As the full list of candidate triads can be long, MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can definitely adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each triad are respectively identfied, we give higher priority on the peak-gene interaction when we select the final triads so it is possible to see some triads in the output file without high score TF bindings. These interactions could be also important.  
+For each cell type, a output file containing gene, chromatin site and regulator information will be finally produced by MAGICAL, with the name as "(Cell type) MAGICAL triads.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can definitely adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each triad are respectively identfied, we give higher priority on the peak-gene interaction when we select the final triads so it is possible to see some triads in the output file without high score TF bindings. These interactions are still important.  
 
 
 
