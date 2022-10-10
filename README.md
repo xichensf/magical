@@ -13,7 +13,7 @@ Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Se
 
 **Cell type**:
 
-The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. MAGICAL infer regulatory triads for each cell type. Therefore, users need to specificy one cell type and then obtain use the provided R script to prepare the following input files. 
+The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. MAGICAL infer regulatory triads for each cell type. Therefore, users need to specificy one cell type and then use the provided R script to prepare the following input files. 
 
 
 **scRNA-seq files**:
