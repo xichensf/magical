@@ -45,7 +45,7 @@ A six column matrix with genome coordinates (*left_chr, left_point1, left_point2
 
 **Candidate gene and peak input files**:
 
-As differential calling is done seperately for genes and peaks using different tools, we highly recommand users to prepare these two files using similar differential statistics cutoffs. The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge. Note, for candidate genes and peaks MAGICAL will run one more round of differential analysis using pseudobulk. We make this step optional to the users but it has been domenstated to effectively lower the false positive rate in single cell differential calling (Nature Communication). 
+As differential calling is done seperately for genes and peaks using different tools, we highly recommand users to prepare these two files using similar differential statistics cutoffs. The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge. Note, for candidate genes and peaks MAGICAL will run one more round of differential analysis using pseudobulk. We set this step as optional but it has been domenstated to effectively lower the false positive rate in single cell differential calling (Nature Communication). 
 
 
 # MAGICAL analysis
