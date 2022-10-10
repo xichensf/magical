@@ -37,7 +37,7 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 
 *TF-peak mapping*: a three-column matrix with *peak index*, *motif index*, and *binary mapping*.
 
-*Motif names*: a two-column matrix with *motif index* and *motif names.
+*Motif names*: a two-column matrix with *motif index* and *motif names*.
 
 
 **Topologically associating domain file (prior)**:
@@ -45,11 +45,11 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 A six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. A no proper TAD information or HiC profile is available for the context being studied. We also provide an option to use 200kb to TSS or 500kb to TSS as prior to initally pair peaks and genes. Please ensure the reference genome used for scATAC-seq and TAD are the same. We noted that most HiC profiles were on hg19 while scATACseq is more recent and usually based on hg38. 
 
 
-**DEG input file**:
+**Candidate genes**:
 
 
 
-**DAS input file**:
+**Candidate chromatin sites**:
 
 As differential calling is done seperately for genes and peaks using different tools, we highly recommand users to prepare these two files using similar differential statistics cutoffs. The file names should be "(Cell type) DEG.txt" with gene symbols and "(Cell type) DAS.txt" with peak coordinates. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge.  
 
