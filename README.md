@@ -7,7 +7,7 @@ Please check our paper "Mapping cell type regulatory triads modulated by disease
 MATLAB and R scripts are provided seperately for ***two condition analysis*** (inferring disease modulated regulatory triads) or ***one condition analysis*** (inferring active regulatory triad). 
 
 
-# MAGICAL input
+# Input files
 
 Users need to prepare following input files (which can be easily obtained from popular single cell data processing packages like Seurat, ArchR (or Signac))
 
@@ -55,4 +55,8 @@ To identify active triads, actively accessble chromatin sites within each cell t
 Next, for each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected
 
 
-# MAGICAL output
+# Output file
+A triad file containing gene, chromatin site and regulator information will be finally output by MAGICAL. As the full list of candidate triads can be long, MAGICAL will use its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write into the output file. Users can adjust these thresholds in the scripts to allow more or fewer output triads. 
+
+
+
