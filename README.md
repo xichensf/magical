@@ -36,7 +36,7 @@ A binary matrix (can also be continuous but will be converted to binary) with pe
 
 **Topologically associating domain file (prior)**:
 
-A six column matrix with genome coordinates (left_chr, left_point1, left_point2, right_chr, right_point1, right_point2) for the two boundaries of each domain. A no proper TAD information or HiC profile is available for the context being studied. We also provide an option to use 200kb to TSS or 500kb to TSS as prior to initally pair peaks and genes. Please ensure the reference genome used for scATAC-seq and TAD are the same. We noted that most HiC profiles were on hg19 while scATACseq is more recent and usually based on hg38. 
+A six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. A no proper TAD information or HiC profile is available for the context being studied. We also provide an option to use 200kb to TSS or 500kb to TSS as prior to initally pair peaks and genes. Please ensure the reference genome used for scATAC-seq and TAD are the same. We noted that most HiC profiles were on hg19 while scATACseq is more recent and usually based on hg38. 
 
 
 **Candidate gene and peak input files**:
