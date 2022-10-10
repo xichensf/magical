@@ -9,11 +9,14 @@ Please check our paper "Mapping cell type regulatory triads modulated by disease
 
 # Input files
 
-The scRNA-seq and scATAC-seq data sould be preprocessed and labelled. Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Seurat, ArchR. We realize that researchers may have different preference on data processing especially when there are multiple conditions, batches and samples involved. We will not talk about data integration here. Instead, we provide a R script to show how to prepare input files for MAGICAL based on the intergated single cell data. MAGICAL only needs gene symbols, peak coordinates, read count and cell meta information. These information is very fundamental and should be easily obtained from a single cell multioimc dataset. 
+Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Seurat, ArchR. We realize that researchers may have different preference on data processing especially when there are multiple conditions, batches and samples involved. MAGICAL only needs gene symbols, peak coordinates, read count and cell meta information like cell type, sample/subject ID and sample group/condition. These information is very fundamental and should be easily obtained from a single cell multioimc dataset. We provide a R script to demo how to extra the following input files for MAGICAL from the intergated single cell data. 
+
+**Cell type**:
+
+The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. MAGICAL infer regulatory triads for each cell type. Therefore, users need to specificy one cell type and then obtain use the provided R script to prepare the following input files. 
 
 
-
-**scRNA-seq Input files**:
+**scRNA-seq files**:
 
 *Read count table*: A three-column matrix with *gene index*, *cell index*, and *RNA read count*
 
@@ -21,7 +24,7 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and labelled. Tools for 
 
 *Cell meta*: A four-column matrix with *cell barcode*, *cell type label*, *sample/subject ID*, and *condition* (can be more than two conditions but only up to two conditions will be analyzed in each run)
 
-**scATAC-seq Input files**:
+**scATAC-seq files**:
 
 *Read count table*: A three-column matrix with *peak index*, *cell index*, and *ATAC read count*
 
@@ -42,7 +45,7 @@ A six column matrix with genome coordinates (*left_chr, left_point1, left_point2
 
 **Candidate gene and peak input files**:
 
-We highly recommand users to prepare these two files in a similar way. The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates, where the cell type name must be the same as the cell type label used in the scRNA-seq and scATAC-seq datasets. Note, MAGICAL integrates data and infer triads for each cell type. Thus, it is fine to only provide candidate genes and peaks selected for the cell type to be analyzed. 
+As differential calling is done seperately for genes and peaks using different tools, we highly recommand users to prepare these two files using similar differential statistics cutoffs. The file names should be "(Cell type) candidate genes.txt" with gene symbols and "(Cell type) candidate peaks.txt" with peak coordinates. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge. Note, for candidate genes and peaks MAGICAL will run one more round of differential analysis using pseudobulk. We make this step optional to the users but it has been domenstated to effectively lower the false positive rate in single cell differential calling (Nature Communication). 
 
 
 # MAGICAL analysis
