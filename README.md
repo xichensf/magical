@@ -1,4 +1,4 @@
-# MAGICAL
+# MAGICAL analysis
 
 MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes paired scRNA-seq and scATAC-seq datasets from different conditions using a hierarchical Bayesian framework that improves model robustness by leveraging prior transcription factor motif and chromatin domain information. MAGICAL explicitly models errors both in chromatin accessibility and in gene expression measures, which improves the accuracy of the condition-specific 3D triads comprising distal chromatin sites, regulators, and their interactions with genes that are identified. 
 
@@ -50,7 +50,7 @@ A six column matrix with genome coordinates (*left_chr, left_point1, left_point2
 
 
 
-## MAGICAL analysis
+## Triad inference
 
 MAGICAL uses transcription factor (TF) motif and topological associated domains (TAD) as prior knowledge to infer regulatory triads of transcriptional regulators, regulatory chromatin sites and genes for each cell type. 
 
