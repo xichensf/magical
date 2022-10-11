@@ -22,6 +22,7 @@ As differential calling is usually done seperately during the scRNA-seq and scAT
   * *Candidate chromatin site file*: a three-column matrix *chr*, *point1*, and *point2*. 
 
 #### **scRNA-seq read count**
+We extract the scRNA-seq read count information from cells labelled to the selected cell type. 
 
   * *scRNA read count file*: a three-column matrix with *gene index*, *cell index*, and *RNA read count*
 
@@ -31,6 +32,7 @@ As differential calling is usually done seperately during the scRNA-seq and scAT
 
 
 #### **scATAC-seq read count**
+We extract the scATAC-seq read count information from cells labelled to the selected cell type. 
 
   * *scATAC read count file*: a three-column matrix with *peak index*, *cell index*, and *ATAC read count*
 
@@ -40,15 +42,18 @@ As differential calling is usually done seperately during the scRNA-seq and scAT
 
 
 #### **TF motif mapping (prior)**
+We map motifs from the chromVarmotif library to all peaks and get their binary binding relationship. 
 
-  * *TF-peak mapping file*: a three-column matrix with *peak index*, *motif index*, and *binary mapping*.
+  * *TF-peak mapping file*: a three-column matrix with *peak index*, *motif index*, and *binary binding*.
 
   * *Motif file*: a two-column matrix with *motif index* and *motif names*.
 
 
 #### **TAD (prior)**
+Users will need to get the TAD prior information from HiC profiles or similar experiments conducted in the same or similar context to their single cell datasets. 
+  * *TAD file*: a six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. 
 
-A six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. If no proper TAD information or HiC profile is available for the context being studied. We also provide another option to use distance to TSS as prior to initally pair peaks and genes. In addition, please ensure that the reference genome used for scATAC-seq and TAD is the same.  
+Alternatively, if no proper TAD information or HiC profile is available for the context being studied, we also provide a option to use distance to TSS as prior to initally pair peaks and genes.  
 
 
 
