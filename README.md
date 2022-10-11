@@ -7,15 +7,20 @@ Please check our paper "Mapping cell type regulatory triads modulated by disease
 **MATLAB** and **R** scripts are provided. 
 
 
-# Input files
+## Input files
 
 Tools for scRNA-seq and scATAC-seq data processing are widely available, e.g. Seurat, ArchR. We realize that researchers may have different preference on data processing especially when there are multiple conditions, batches and samples involved. MAGICAL only needs gene symbols, peak coordinates, read count and cell meta information like cell type, sample/subject ID and sample group/condition. These information is very fundamental and should be easily obtained from any single cell multioimc dataset. We provide a ***R script*** to demo how to extra the following input files for MAGICAL from the intergated single cell data. 
 
-**Cell type**:
+**1. Cell type**
 
 The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. MAGICAL infer regulatory triads for each cell type. Therefore, users need to specificy one cell type and then use the provided R script to prepare the following input files. 
 
-**scRNA-seq files**:
+
+**2. Candidate genes (DEG) and candidate chromatin sites (DAS)**:
+
+As differential calling is usually done seperately during the scRNA-seq and scATAC-seq processing, we highly recommand users to prepare these two files using similar differential statistics cutoffs. For the selected cell type, the candidate gene file should be named as "(Cell type) candidate genes.txt" containing a list of gene symbols and the candidate chromatin site file should be named as "(Cell type) candidate regions.txt" including a list of regions (peaks) with genome coordinates (*chr, point1, point2*). We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge.  
+
+**2. scRNA-seq read count**
 
 *Read count table*: a three-column matrix with *gene index*, *cell index*, and *RNA read count*
 
@@ -24,7 +29,7 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 *Cell meta*: a five-column matrix with *cell index*, *cell barcode*, *cell type label*, *sample/subject ID*, and *condition* (can be more than two conditions but only up to two conditions will be analyzed in each run). Here, each sample must have a unique name and this name should be the same in the scATAC-seq data (to allow MAGICAL to pair data together). 
 
 
-**scATAC-seq files**:
+**3. scATAC-seq read count**
 
 *Read count table*: a three-column matrix with *peak index*, *cell index*, and *ATAC read count*
 
@@ -33,30 +38,21 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 *Cell meta*: a five-column matrix with *cell index*, *cell barcode* (can be different from the scRNA-seq cell barcodes), *cell type label*, *sample/subject ID* (must be the same as scRNA-seq sample ID), and *condition* (must be the same as scRNA-seq condition)
 
 
-**Transcriotion factor motif mapping file (prior)**:
+**4. TF motif mapping (prior)**
 
 *TF-peak mapping*: a three-column matrix with *peak index*, *motif index*, and *binary mapping*.
 
 *Motif names*: a two-column matrix with *motif index* and *motif names*.
 
 
-**Topologically associating domain file (prior)**:
+**5. TAD (prior)**
 
 A six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. If no proper TAD information or HiC profile is available for the context being studied. We also provide another option to use distance to TSS as prior to initally pair peaks and genes. In addition, please ensure that the reference genome used for scATAC-seq and TAD is the same.  
 
 
-**Candidate genes**:
 
 
-
-**Candidate chromatin sites**:
-
-As differential calling is done seperately for genes and peaks using different tools, we highly recommand users to prepare these two files using similar differential statistics cutoffs. The file names should be "(Cell type) DEG.txt" with gene symbols and "(Cell type) DAS.txt" with peak coordinates. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge.  
-
-
-
-
-# MAGICAL analysis
+## MAGICAL analysis
 
 MAGICAL uses transcription factor (TF) motif and topological associated domains (TAD) as prior knowledge to infer regulatory triads of transcriptional regulators, regulatory chromatin sites and genes for each cell type. 
 
