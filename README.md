@@ -50,7 +50,7 @@ We map motifs from the [chromVARmotifs](https://github.com/GreenleafLab/chromVAR
 Users will need to get the TAD prior information from HiC profiles or similar experiments conducted in the same or similar context to their single cell datasets. We include a GM12878 cell line TAD file in our demo for blood context analysis. 
   * *TAD file*: a six column matrix with genome coordinates (*left_chr, left_point1, left_point2, right_chr, right_point1, right_point2*) for the two boundaries of each domain. 
 
-Alternatively, if no proper TAD information or HiC profile is available for the context being studied, we also provide a option to use distance to TSS as prior to initally pair peaks and genes.  
+Alternatively, if no proper TAD information or HiC profile is available for the context being studied, we also provide a option to use distance to TSS as prior to initally pair peaks and genes. RefSeq file of hg38 is provided for TSS reference.  
 
 
 
