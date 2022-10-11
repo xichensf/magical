@@ -17,7 +17,7 @@ The scRNA-seq and scATAC-seq data sould be preprocessed and cell type labelled. 
 
 #### **Candidate genes (DEG) and candidate chromatin sites (DAS)**
 
-As differential calling is usually done seperately during the scRNA-seq and scATAC-seq processing, we highly recommand users to prepare these two files using similar differential statistics cutoffs. We recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge.  
+As differential calling is usually done seperately during the scRNA-seq and scATAC-seq processing, we highly recommand preparing these two files using similar differential statistics cutoffs. We also recommond running MAGICAL with hundreds of genes and a couple thousand of peaks. Too few genes like under 50 or two many genes like over 1000 will make the Bayesian process hard to converge.  
 
   * *Candidate gene file*: a list of ``` gene symbols ```
   * *Candidate chromatin site file*: a three-column matrix of ```chr```, ```point1```, and ```point2``` 
