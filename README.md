@@ -40,7 +40,7 @@ We extract the scATAC-seq read count information from cells labelled to the sele
 
 
 #### **TF motif mapping (prior)**
-We map motifs from the chromVarmotif library to all peaks and get their binary binding relationship. 
+We map motifs from the [chromVARmotifs](https://github.com/GreenleafLab/chromVARmotifs) library to all peaks and get their binary binding relationship. 
 
   * *TF-peak mapping file*: a three-column matrix with *peak index*, *motif index*, and *binary binding*.
   * *Motif file*: a two-column matrix with *motif index* and *motif names*.
