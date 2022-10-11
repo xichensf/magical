@@ -25,7 +25,7 @@ As differential calling is usually done seperately during the scRNA-seq and scAT
 We extract the scRNA-seq read count information from cells labelled to the selected cell type.   
 
   * *scRNA read count file*: a three-column matrix with *gene index*, *cell index*, and *RNA read count*  
-  * *scRNA gene file*: a two-column matrix with 'gene index' and 'gene name'.
+  * *scRNA gene name file*: a two-column matrix with 'gene index' and 'gene name'.
   * *scRNA cell meta file*: a five-column matrix with *cell index*, *cell barcode*, *cell type label*, *sample/subject ID*, and *condition*
 
 Note, each sample must have a unique name and this name should be the same in the scATAC-seq data (to allow MAGICAL to pair data together). 
@@ -35,15 +35,15 @@ Note, each sample must have a unique name and this name should be the same in th
 We extract the scATAC-seq read count information from cells labelled to the selected cell type. 
 
   * *scATAC read count file*: a three-column matrix with *peak index*, *cell index*, and *ATAC read count*
-  * *scATAC peak file*: a four-column matrix with *peak index*, *chr*, *peak_point1*, *peak_point2*.
+  * *scATAC peak coordinate file*: a four-column matrix with *peak index*, *chr*, *peak_point1*, *peak_point2*.
   * *scATAC cell meta file*: a five-column matrix with *cell index*, *cell barcode*, *cell type label*, *sample/subject ID*, and *condition*
 
 
 #### **TF motif mapping (prior)**
 We map motifs from the [chromVARmotifs](https://github.com/GreenleafLab/chromVARmotifs) library to all peaks and get their binary binding relationship. 
 
-  * *TF-peak mapping file*: a three-column matrix with *peak index*, *motif index*, and *binary binding*.
-  * *Motif file*: a two-column matrix with *motif index* and *motif names*.
+  * *Motif mapping file*: a three-column matrix with *peak index*, *motif index*, and *binary binding*.
+  * *Motif name file*: a two-column matrix with *motif index* and *motif names*.
 
 
 #### **TAD (prior)**
