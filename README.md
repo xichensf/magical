@@ -48,7 +48,7 @@ We map 870 motifs from the [chromVARmotifs](https://github.com/GreenleafLab/chro
 
 
 #### **TAD boundary (prior)**
-Users will need to get the TAD boundary information from HiC profiles or similar experiments conducted in the same or similar context to their single cell datasets. We include a GM12878 cell line TAD file in our demo for blood context analysis. 
+Users will need to get the TAD boundary information from HiC profiles or similar experiments conducted in the same or similar context to their single cell datasets. We include a GM12878 cell line TAD file (~6000 domains with median size 400kb) in our demo for blood context analysis. 
   * *TAD file*: a three column matrix with ```chr```, ```left_boundary```, and ```right_boundary``` 
 
 Alternatively, if no proper TAD information or HiC profile is available for the context being studied, we provide another option to use distance to TSS as prior to initally pair peaks and genes. Hg38 RefSeq file is provided for TSS reference.  
