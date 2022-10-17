@@ -55,6 +55,21 @@ Users will need to get the TAD boundary information from HiC profiles or similar
 Alternatively, if no proper TAD information or HiC profile is available for the context being studied, we provide another option to use relative distance to TSS (e.g. 500kb) as prior to initally pair peaks and genes. Hg38 RefSeq file is provided for TSS reference.  
 
 
+A demo:
+
+```
+loading all input data, it may take a while ...
+
+We detected 2 conditions from the meta file.
+
+The input scRNAseq data includes 36601 genes, 13248 cells from 12 samples/subecjts.
+
+The input scATACseq data includes 144387 peaks, 13248 cells from 12 samples/subecjts.
+
+There are paired data for 12 samples/subecjts. (check sample IDs if this number is lower than expected)
+
+870 motifs, 11827 candidate chromatin sites and 1212 candidate genes are provided.
+```
 
 
 ## Triad inference
@@ -62,11 +77,37 @@ Alternatively, if no proper TAD information or HiC profile is available for the 
 MAGICAL uses TF motif and TAD as prior knowledge to infer regulatory triads of transcriptional regulators, regulatory chromatin sites and genes for the selected cell type. 
 
 #### **1. Candidate triad constrcution**  
-To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance.   
+To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
+```
+Candidate regulatory circuits constrcution and MAGICAL model initialization
 
+Candidate circuits include 81 TFs, 2379 chromatin sites, and 725 genes
+```
 #### **2. Triad linkage inference** 
 For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected.  
+```
+MAGICAL work starts ...
 
+MAGICAL finished 10 percent
+
+MAGICAL finished 20 percent
+
+MAGICAL finished 30 percent
+
+MAGICAL finished 40 percent
+
+MAGICAL finished 50 percent
+
+MAGICAL finished 60 percent
+
+MAGICAL finished 70 percent
+
+MAGICAL finished 80 percent
+
+MAGICAL finished 90 percent
+
+MAGICAL finished 100 percent
+```
 #### **3. Disease-associated triads output** 
 For each cell type, a file containing gene, chromatin site and regulator information will be finally produced by MAGICAL, with the name as "(Cell type) MAGICAL triads.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each triad are respectively identfied, we give higher priority on the peak-gene interaction when we select the final triads. Thus it is likely to see some triads in the output file without high score TF bindings. These interactions are still important.  
 
