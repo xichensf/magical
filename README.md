@@ -89,27 +89,22 @@ For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model
 MAGICAL work starts ...
 
 MAGICAL finished 10 percent
-
 MAGICAL finished 20 percent
-
 MAGICAL finished 30 percent
-
 MAGICAL finished 40 percent
-
 MAGICAL finished 50 percent
-
 MAGICAL finished 60 percent
-
 MAGICAL finished 70 percent
-
 MAGICAL finished 80 percent
-
 MAGICAL finished 90 percent
-
 MAGICAL finished 100 percent
 ```
 #### **3. Disease-associated triads output** 
 For each cell type, a file containing gene, chromatin site and regulator information will be finally produced by MAGICAL, with the name as "(Cell type) MAGICAL triads.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each triad are respectively identfied, we give higher priority on the peak-gene interaction when we select the final triads. Thus it is likely to see some triads in the output file without high score TF bindings. These interactions are still important.  
 
+```
+Final regulatory circuits include 81 TFs, 617 peaks and 368 genes.
 
+Results can be found from MAGICAL_selected_regulatory_circuits.txt
+```
 
