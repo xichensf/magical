@@ -46,6 +46,7 @@ We map 870 motifs from the [chromVARmotifs](https://github.com/GreenleafLab/chro
   * *Motif mapping file*: a three-column matrix with ```peak index```, ```motif index```, and ```binary binding```.
   * *Motif name file*: a two-column matrix with ```motif index``` and ```motif names```.
 
+Note, the motif names of the same TF can be very different if they are collected from different databases. To avoid duplicated motifs, we require using the corresponding gene name for each TF motif. 
 
 #### **TAD boundary (prior)**
 Users will need to get the TAD boundary information from HiC profiles or similar experiments conducted in the same or similar context to their single cell datasets. We include a GM12878 cell line TAD file (~6000 domains with median size 400kb) in our demo for blood context analysis. 
