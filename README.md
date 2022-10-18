@@ -80,8 +80,6 @@ MAGICAL uses TF motif and TAD as prior knowledge to infer regulatory triads of t
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
 Candidate regulatory circuits constrcution and MAGICAL model initialization
-
-Candidate circuits include 81 TFs, 2379 chromatin sites, and 725 genes
 ```
 #### **2. Triad linkage inference** 
 For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected.  
@@ -103,8 +101,6 @@ MAGICAL finished 100 percent
 For each cell type, a file containing genes, regulatory chromatin sites and TFs will be finally produced by MAGICAL, with the name as "MAGICAL_selected_regulatory_circuits.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each circuit are respectively identfied, we give higher priority on the peak-gene interaction when we select the final results. Thus it is likely to see some circuits in the output file without high score TF bindings. They are still important.  
 
 ```
-Final regulatory circuits include 81 TFs, 617 peaks and 368 genes.
-
-Results can be found from MAGICAL_selected_regulatory_circuits.txt
+MAGICAL selected regulatory circuits with 81 TFs, 617 peaks and 368 genes.
 ```
 
