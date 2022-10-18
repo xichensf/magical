@@ -58,7 +58,7 @@ Alternatively, if no proper TAD information or HiC profile is available for the 
 A demo (~10mins run):
 
 ```
-loading all input data, it may take a while ...
+loading all input data ...
 
 We detected 2 conditions from the meta file.
 
