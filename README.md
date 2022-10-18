@@ -68,7 +68,8 @@ The input scATACseq data includes 144387 peaks, 13248 cells from 12 samples/sube
 
 There are paired data for 12 samples/subecjts. (check sample IDs if this number is lower than expected)
 
-870 motifs, 11827 candidate chromatin sites and 1212 candidate genes are provided.
+870 motifs, 945 candidate chromatin sites and 1143 candidate genes are provided.
+
 ```
 
 
