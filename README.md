@@ -55,7 +55,7 @@ Users will need to get the TAD boundary information from HiC profiles or similar
 Alternatively, if no proper TAD information or HiC profile is available for the context being studied, we provide another option to use relative distance to TSS (e.g. 500kb) as prior to initally pair peaks and genes. Hg38 RefSeq file is provided for TSS reference.  
 
 
-A demo:
+A demo (~10mins run):
 
 ```
 loading all input data, it may take a while ...
@@ -100,7 +100,7 @@ MAGICAL finished 90 percent
 MAGICAL finished 100 percent
 ```
 #### **3. Disease-associated triads output** 
-For each cell type, a file containing gene, chromatin site and regulator information will be finally produced by MAGICAL, with the name as "(Cell type) MAGICAL triads.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each triad are respectively identfied, we give higher priority on the peak-gene interaction when we select the final triads. Thus it is likely to see some triads in the output file without high score TF bindings. These interactions are still important.  
+For each cell type, a file containing genes, regulatory chromatin sites and TFs will be finally produced by MAGICAL, with the name as "MAGICAL_selected_regulatory_circuits.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can adjust these thresholds in the provided scripts to allow more or fewer output triads. As the two linkages (TF-peak binding and peak-gene looping) in each circuit are respectively identfied, we give higher priority on the peak-gene interaction when we select the final results. Thus it is likely to see some circuits in the output file without high score TF bindings. They are still important.  
 
 ```
 Final regulatory circuits include 81 TFs, 617 peaks and 368 genes.
