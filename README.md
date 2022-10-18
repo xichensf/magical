@@ -80,7 +80,10 @@ MAGICAL uses TF motif and TAD as prior knowledge to infer regulatory triads of t
 #### **1. Candidate triad constrcution**  
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
-Candidate regulatory circuits constrcution and MAGICAL model initialization
+Candidate regulatory circuits constrcution ...
+
+MAGICAL model initialization ...
+
 ```
 #### **2. Triad linkage inference** 
 For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected.  
