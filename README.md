@@ -91,14 +91,23 @@ For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model
 MAGICAL work starts ...
 
 MAGICAL finished 10 percent
+
 MAGICAL finished 20 percent
+
 MAGICAL finished 30 percent
+
 MAGICAL finished 40 percent
+
 MAGICAL finished 50 percent
+
 MAGICAL finished 60 percent
+
 MAGICAL finished 70 percent
+
 MAGICAL finished 80 percent
+
 MAGICAL finished 90 percent
+
 MAGICAL finished 100 percent
 ```
 #### **3. Disease-associated triads output** 
