@@ -69,7 +69,6 @@ The input scATACseq data includes 144387 peaks, 13248 cells from 12 samples/sube
 There are paired data for 12 samples/subecjts. (check sample IDs if this number is lower than expected)
 
 870 motifs, 945 candidate chromatin sites and 1143 candidate genes are provided.
-
 ```
 
 
@@ -83,7 +82,6 @@ To identify candidate disease-modulated triads, candidate chromatin sites are as
 Candidate regulatory circuits constrcution ...
 
 MAGICAL model initialization ...
-
 ```
 #### **2. Triad linkage inference** 
 For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected.  
