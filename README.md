@@ -76,10 +76,10 @@ There are paired data for 12 samples/subecjts. (check sample IDs if this number 
 
 MAGICAL uses TF motif and TAD as prior knowledge to infer regulatory triads of transcriptional regulators, regulatory chromatin sites and genes for the selected cell type. 
 
-#### **1. Candidate triad constrcution**  
+#### **1. Candidate triad construction**  
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
-Candidate regulatory circuits constrcution ...
+Candidate regulatory circuits construction ...
 
 MAGICAL model initialization ...
 ```
