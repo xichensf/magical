@@ -72,19 +72,19 @@ There are paired data for 12 samples/subecjts. (check sample IDs if this number 
 ```
 
 
-## Triad inference
+## Regulatory circuit inference
 
 MAGICAL uses TF motif and TAD as prior knowledge to infer regulatory triads of transcriptional regulators, regulatory chromatin sites and genes for the selected cell type. 
 
-#### **1. Candidate triad construction**  
+#### **1. Build candidate circuits**  
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
 Candidate regulatory circuits construction ...
 
 MAGICAL model initialization ...
 ```
-#### **2. Triad linkage inference** 
-For each candidate triad, MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and samples in that cell type and estimate the strength of the triad TF-peak-gene linkages. The TF binding strength and TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the gene expression data are used to infer the peak-gene interaction strength. We optimize the states of TF-peak-gene linkages based on the estimated strength which is used to initialize the next round of estimations. Finally, optimized triads fitting the variation in both data types are selected.  
+#### **2. Infer circuit linkages** 
+MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and conditions and estimate the strength of the circuit TF-peak-gene linkages. The TF-peak binding confidence and the hidden TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the input gene expression data are used to infer the peak-gene looping. The updated states of TF-peak-gene linkages based on the estimated strength are used to initialize the next round of estimations. 
 ```
 MAGICAL work starts ...
 
@@ -108,8 +108,8 @@ MAGICAL finished 90 percent
 
 MAGICAL finished 100 percent
 ```
-#### **3. Disease-associated triads output** 
-For each cell type, a file containing genes, regulatory chromatin sites and TFs will be finally produced by MAGICAL, with the name as "MAGICAL_selected_regulatory_circuits.txt". MAGICAL uses its default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) to select triads and write them into the output file. Users can adjust these thresholds in the provided scripts to allow more or fewer output triads.  
+#### **3. Disease modulated circuits** 
+Finally, optimized circuits fitting the variation in both modalities are selected. Circuit genes, assocaited chromatin sites and the regulatory TFs will be written to "MAGICAL_selected_regulatory_circuits.txt". MAGICAL uses default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) for circuit selection. Users can adjust these thresholds in the provided scripts to allow more or fewer outputs.  
 
 ```
 MAGICAL selected regulatory circuits with 93 TFs, 390 peaks and 310 genes.
