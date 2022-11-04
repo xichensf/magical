@@ -4,7 +4,7 @@ MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRN
 
 ![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
 
-Please check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details. Any questions about the technical details of the paper or about this MAGICAL package can be emailed to: Xi Chen, xchen@flatironinstute.org.
+Please check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details. Questions can be emailed to: Xi Chen, xchen@flatironinstute.org.
 
 
 ## Input files
