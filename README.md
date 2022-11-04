@@ -108,7 +108,7 @@ MAGICAL finished 90 percent
 
 MAGICAL finished 100 percent
 ```
-#### **3. Disease modulated circuits** 
+#### **3. Output disease modulated circuits** 
 Finally, optimized circuits fitting the variation in both modalities are selected. Circuit genes, assocaited chromatin sites and the regulatory TFs will be written to "MAGICAL_selected_regulatory_circuits.txt". MAGICAL uses default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) for circuit selection. Users can adjust these thresholds in the provided scripts to allow more or fewer outputs.  
 
 ```
