@@ -67,7 +67,7 @@ Note, the motif names of the same TF can be very different if they are collected
 TAD boundary information can be easily obatined from HiC profiles or similar experiments. We include [a GM12878 HiC-based TAD file](https://github.com/xichensf/magical/blob/main/RaoGM12878_40kb_TopDomTADs_filtered_hg38.txt) (~6000 domains with median size 400kb) in our demo for blood context analysis. 
   * *TAD file*: a three column matrix with ```chr```, ```left_boundary```, and ```right_boundary``` 
 
-In case no proper TAD information or HiC profile is available for the context being studied, another option to use relative distance to TSS (e.g. 500kb) as prior to initally pair peaks and genes. Hg38 RefSeq file is provided for TSS reference.  
+In case no proper TAD information or HiC profile is available for the context being studied, another option to use relative distance to TSS (e.g. 500kb) as prior to initally pair peaks and genes. [Hg38 RefSeq file](https://github.com/xichensf/magical/blob/main/hg38_Refseq) is included in the demo for TSS reference.  
 
 
 A demo (~10mins run):
