@@ -1,15 +1,8 @@
-# MAGICAL analysis
 
-MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRNA-seq and scATAC-seq datasets from different conditions. It features a hierarchical Bayesian framework that improves model robustness by leveraging prior transcription factor motif and chromatin domain information. MAGICAL explicitly models signal and data noise in both chromatin accessibility and gene expression measures, which improves the accuracy of regulatory circuits comprising chromatin sites, transcription factors, and target genes that are identified. 
+# Processed single cell multiomics data used in the paper
 
-![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
+The sample-paired scRNA-seq and scATAC-seq data for S. aureus infected subjects and uninfected controls were respectively processed using Seurat and ArchR. Check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details about data processing. Questions can be emailed to Xi Chen (xchen@flatironinstute.org).
 
-Please check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details. Questions about the methods and data processing can be emailed to Xi Chen (xchen@flatironinstute.org). Questions about data can be emailed to Stuart C. Sealfon (stuart.sealfon@mssm.edu) 
-
-
-## Processed single cell multiomics data used in the paper
-
-The sample-paired scRNA-seq and scATAC-seq data for S. aureus infected subjects and uninfected controls were respectively processed using Seurat and ArchR. 
   * The R object for scRNA-seq data can be downloaded [here]. 
   * The R object for scATAC-seq data can be downloaded [here].  
 
@@ -19,7 +12,20 @@ The validation scATAC-seq data for mild COVID-19 subjects and uninfected control
 
 All raw data files have been uploaded to the GEO database and will be released for public access soon.  
 
+![alt text](https://github.com/xichensf/magical/blob/main/UMAP.png)
+
+
+# MAGICAL analysis
+
+MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRNA-seq and scATAC-seq datasets from different conditions. It features a hierarchical Bayesian framework that improves model robustness by leveraging prior transcription factor motif and chromatin domain information. MAGICAL explicitly models signal and data noise in both chromatin accessibility and gene expression measures, which improves the accuracy of regulatory circuits comprising chromatin sites, transcription factors, and target genes that are identified. 
+
 ![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
+
+
+
+
+
+
 
 ## MAGICAL input
 
