@@ -1,11 +1,11 @@
 
 # PBMC single cell multiomics data used in the paper
 
-The sample-paired PBMC scRNA-seq and scATAC-seq data of S. aureus infected subjects and uninfected controls were respectively processed using Seurat and ArchR. The PBMC scATAC-seq data of mild COVID-19 subjects and uninfected controls were processed using ArchR. 
+We provide download links for datasets generated in the paper "***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***". The sample-paired PBMC scRNA-seq and scATAC-seq data of *S. aureus* infected subjects and uninfected controls were respectively processed using Seurat and ArchR. The PBMC scATAC-seq data of mild COVID-19 subjects and uninfected controls were processed using ArchR. 
 
-  * The Seurat R object of the intergated scRNA-seq data can be downloaded [here]. 
-  * The ArchR R project (including arrow files) of the integrated scATAC-seq data can be downloaded [here].  
-  * The ArchR R project (including arrow files) of the integrated scATAC-seq data can be downloaded [here].  
+  * The Seurat R object of the intergated ***S. aureus*** scRNA-seq data can be downloaded [here]. 
+  * The ArchR R project (including arrow files) of the integrated ***S. aureus*** scATAC-seq data can be downloaded [here].  
+  * The ArchR R project (including arrow files) of the integrated **COVID-19** scATAC-seq data can be downloaded [here].  
 
 
 ![alt text](https://github.com/xichensf/magical/blob/main/UMAP.png)
@@ -134,5 +134,10 @@ Finally, optimized circuits fitting the variation in both modalities are selecte
 MAGICAL selected regulatory circuits with 93 TFs, 390 peaks and 310 genes.
 ```
 
-Check our paper "**Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022" for more details about single cell data integration and MAGICAL analysis. Questions can be emailed to Xi Chen (xchen@flatironinstute.org).
 
+# Contact
+Questions about scATAC-seq data processing and MAGICAL can be emailed to Xi Chen (<xchen@flatironinstitute.org>).
+
+Questions about scRNA-seq data processing can be emailed to Yuan Wang (<yuanwang@cs.princeton.edu>).
+
+Other questions about our work should be emailed to Olga G. Troyanskaya (<ogt@genomics.princeton.edu>) and Stuart C. Sealfon (<stuart.sealfon@mssm.edu>).
