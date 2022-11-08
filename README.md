@@ -4,21 +4,23 @@ MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRN
 
 ![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
 
-Please check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details. Questions can be emailed to: Xi Chen, xchen@flatironinstute.org.
+Please check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details. Questions about the methods and data processing can be emailed to Xi Chen (xchen@flatironinstute.org). Questions about data can be emailed to Stuart C. Sealfon (stuart.sealfon@mssm.edu) 
 
 
 ## Processed single cell multiomics data used in the paper
 
 The sample-paired scRNA-seq and scATAC-seq data for S. aureus infected subjects and uninfected controls were respectively processed using Seurat and ArchR. 
-The R object for scRNA-seq data can be downloaded here.  
-The R object for scATAC-seq data can be downloaded here.  
+  * The R object for scRNA-seq data can be downloaded [here]. 
+  * The R object for scATAC-seq data can be downloaded [here].  
 
 
 The validation scATAC-seq data for mild COVID-19 subjects and uninfected controls were processed using ArchR.
-The R object for scATAC-seq data can be downloaded here.  
+  * The R object for scATAC-seq data can be downloaded [here].  
+
+All raw data files have been uploaded to the GEO database and will be released for public access soon.  
 
 
-## Input files
+## MAGICAL input
 
 MAGICAL only requires gene symbols, peak coordinates, read count and cell meta information including cell type, sample/subject ID and sample group/condition. These information are very fundamental and can be easily obtained from any single cell multioimc dataset. We provide [(Multiomics_input_for_MAGICAL.R)](https://github.com/xichensf/magical/blob/main/Multiomics_input_for_MAGICAL.R) to demo how to extra the necessary input files from the single cell multiomics data for use with MAGICAL. The script includes code to extract needed information from Seurat processed scRNA-seq data and ArchR or Signac processed scATAC-seq data. Since the single cell data files are usually very large, for testing MAGICAL, we provide demo input files that users can download and run MAGICAL on their local machine. [(download demo input files)](https://drive.google.com/file/d/1CerwMHMnS1PNFNMy00OoHQjn6T30M1j4/view?usp=sharing)
 
@@ -87,14 +89,14 @@ There are paired data for 12 samples/subecjts. (check sample IDs if this number 
 
 ## Regulatory circuit inference
 
-#### **1. Build candidate circuits**  
+#### **Build candidate circuits**  
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
 Candidate regulatory circuits construction ...
 
 MAGICAL model initialization ...
 ```
-#### **2. Infer circuit linkages** 
+#### **Infer circuit linkages** 
 MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and conditions and estimate the strength of the circuit TF-peak-gene linkages. The TF-peak binding confidence and the hidden TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the input gene expression data are used to infer the peak-gene looping. The updated states of TF-peak-gene linkages based on the estimated strength are used to initialize the next round of estimations. 
 ```
 MAGICAL work starts ...
@@ -119,7 +121,7 @@ MAGICAL finished 90 percent
 
 MAGICAL finished 100 percent
 ```
-#### **3. Output disease modulated circuits** 
+## MAGICAL output
 Finally, optimized circuits fitting the variation in both modalities are selected. Circuit genes, assocaited chromatin sites and the regulatory TFs will be written to "MAGICAL_selected_regulatory_circuits.txt". MAGICAL uses default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) for circuit selection. Users can adjust these thresholds in the provided scripts to allow more or fewer outputs.  
 
 ```
