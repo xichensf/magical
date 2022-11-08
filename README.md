@@ -1,18 +1,15 @@
 
-# Processed single cell multiomics data used in the paper
+# PBMC single cell multiomics data used in the paper
 
-The sample-paired scRNA-seq and scATAC-seq data for S. aureus infected subjects and uninfected controls were respectively processed using Seurat and ArchR. Check our paper "*Xi Chen et al. **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022*" for more details about data processing. Questions can be emailed to Xi Chen (xchen@flatironinstute.org).
+The sample-paired PBMC scRNA-seq and scATAC-seq data of S. aureus infected subjects and uninfected controls were respectively processed using Seurat and ArchR. The PBMC scATAC-seq data of mild COVID-19 subjects and uninfected controls were processed using ArchR. 
 
-  * The R object for scRNA-seq data can be downloaded [here]. 
-  * The R object for scATAC-seq data can be downloaded [here].  
+  * The Seurat R object of the intergated scRNA-seq data can be downloaded [here]. 
+  * The ArchR R project (including arrow files) of the integrated scATAC-seq data can be downloaded [here].  
+  * The ArchR R project (including arrow files) of the integrated scATAC-seq data can be downloaded [here].  
 
-
-The validation scATAC-seq data for mild COVID-19 subjects and uninfected controls were processed using ArchR.
-  * The R object for scATAC-seq data can be downloaded [here].  
-
-All raw data files have been uploaded to the GEO database and will be released for public access soon.  
 
 ![alt text](https://github.com/xichensf/magical/blob/main/UMAP.png)
+
 
 
 # MAGICAL analysis
@@ -136,4 +133,6 @@ Finally, optimized circuits fitting the variation in both modalities are selecte
 ```
 MAGICAL selected regulatory circuits with 93 TFs, 390 peaks and 310 genes.
 ```
+
+Check our paper "**Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**. 2022" for more details about single cell data integration and MAGICAL analysis. Questions can be emailed to Xi Chen (xchen@flatironinstute.org).
 
