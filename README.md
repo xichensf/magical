@@ -135,7 +135,7 @@ MAGICAL selected regulatory circuits with 93 TFs, 390 peaks and 310 genes.
 ```
 
 
-# Contact
+## Contact
 Questions about scATAC-seq data processing and MAGICAL can be emailed to Xi Chen (<xchen@flatironinstitute.org>).
 Questions about scRNA-seq data processing can be emailed to Yuan Wang (<yuanwang@cs.princeton.edu>).
 Other questions about our work should be emailed to Olga G. Troyanskaya (<ogt@genomics.princeton.edu>) and Stuart C. Sealfon (<stuart.sealfon@mssm.edu>).
