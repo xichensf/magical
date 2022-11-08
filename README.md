@@ -1,5 +1,5 @@
 
-# PBMC single cell multiomics data used in the paper
+# PBMC single cell multiomics data generated in the paper
 
 We provide download links for datasets generated in the paper "***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***". The sample-paired PBMC scRNA-seq and scATAC-seq data of *S. aureus* infected subjects and uninfected controls were respectively processed using Seurat and ArchR. The PBMC scATAC-seq data of mild COVID-19 subjects and uninfected controls were processed using ArchR. 
 
@@ -137,7 +137,5 @@ MAGICAL selected regulatory circuits with 93 TFs, 390 peaks and 310 genes.
 
 # Contact
 Questions about scATAC-seq data processing and MAGICAL can be emailed to Xi Chen (<xchen@flatironinstitute.org>).
-
 Questions about scRNA-seq data processing can be emailed to Yuan Wang (<yuanwang@cs.princeton.edu>).
-
 Other questions about our work should be emailed to Olga G. Troyanskaya (<ogt@genomics.princeton.edu>) and Stuart C. Sealfon (<stuart.sealfon@mssm.edu>).
