@@ -12,11 +12,11 @@ library(tidyr)
 library(data.table)
 
 #*****************load single cell multiomics data*************************
-scRNA <- readRDS(file = "scRNA/finalmusclerna2922.rds")
-scATAC <- readRDS(file = "scATAC/finalmuscleatac2922.rds")
+scRNA <- readRDS(file = "scRNA.rds")
+scATAC <- readRDS(file = "scATAC.rds")
 
 #***********************select cell type **********************************
-Cell_type_selected = 'Type II Fiber'
+Cell_type_selected = 'xxxx'
 
 
 #******extract and output scRNA-seq info of the selected cell type**********
