@@ -4,8 +4,8 @@
 We provide download links for datasets generated in the paper "***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***". The sample-paired PBMC scRNA-seq and scATAC-seq data of *S. aureus* infected subjects and uninfected controls were respectively processed using Seurat and ArchR. The PBMC scATAC-seq data of mild COVID-19 subjects and uninfected controls were processed using ArchR. 
 
   * The Seurat R object of the intergated ***S. aureus*** scRNA-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/MRSA-MSSA-CTRL-all-combine-20210908.RData.gz) (15GB). 
-  * The ArchR R project (including arrow files) of the integrated ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (15GB).
-  * The ArchR R project (including arrow files) of the integrated **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz).
+  * The ArchR R project (including arrow files) of the integrated ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB).
+  * The ArchR R project (including arrow files) of the integrated **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (34GB).
 
 
 ![alt text](https://github.com/xichensf/magical/blob/main/UMAP.png)
