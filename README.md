@@ -19,6 +19,7 @@ The validation scATAC-seq data for mild COVID-19 subjects and uninfected control
 
 All raw data files have been uploaded to the GEO database and will be released for public access soon.  
 
+![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
 
 ## MAGICAL input
 
