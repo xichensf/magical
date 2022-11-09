@@ -38,12 +38,17 @@ clear scRNA_read_count_table.peak_index scRNA_read_count_table.cell_index scRNA_
 
 
 %load scATACseq data
-[scATAC_peaks.peak_index, scATAC_peaks.chr, scATAC_peaks.point1, scATAC_peaks.point2]=textread(scATAC_peak_file_path, '%d %s %d %d');
+scATAC_assay_temp = readtable(scATAC_peak_file_path);
+scATAC_peaks.peak_index=scATAC_assay_temp{:,1};
+scATAC_peaks.chr=scATAC_assay_temp{:,2};
+scATAC_peaks.point1=scATAC_assay_temp{:,3};
+scATAC_peaks.point2=scATAC_assay_temp{:,4};
 scATAC_peaks.chr_num=zeros(length(scATAC_peaks.chr), 1);
 for i=1:22
     scATAC_peaks.chr_num(strcmp(scATAC_peaks.chr, ['chr', num2str(i)])>0,1)=i;
     %we exclude X and Y chromosome by setting its chr index as 0
 end
+
 
 [scATAC_cells.cell_index, scATAC_cells.cell_barcode, scATAC_cells.cell_type, scATAC_cells.subject_ID]=...
     textread(scATAC_cellmeta_file_path, '%d %s %s %s', 'delimiter', '\t');
