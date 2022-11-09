@@ -68,10 +68,10 @@ We map 870 motifs from the [chromVARmotifs](https://github.com/GreenleafLab/chro
 Note, the motif names of the same TF can be very different if they are collected from different databases. To avoid duplicated motifs and minimize redundance, we required using the corresponding gene name for each TF motif. 
 
 #### **TAD boundary (prior)**
-TAD boundary information can be easily obatined from HiC profiles or similar experiments. We include [a GM12878 HiC-based TAD file](https://github.com/xichensf/magical/blob/main/RaoGM12878_40kb_TopDomTADs_filtered_hg38.txt) (~6000 domains with median size 400kb) in our demo for blood context analysis. 
+TAD boundary information can be easily obatined from HiC profiles or similar experiments. We include in our demo a GM12878 HiC-based TAD file including ~6000 domains with median size 400kb for blood context analysis. 
   * *TAD file*: a three column matrix with ```chr```, ```left_boundary```, and ```right_boundary``` 
 
-In case no proper TAD information or HiC profile is available for the context being studied, another option to use relative distance to TSS (e.g. 500kb) as prior to initally pair peaks and genes. [Hg38 RefSeq file](https://github.com/xichensf/magical/blob/main/hg38_Refseq) is included in the demo for TSS reference.  
+In case no proper TAD information or HiC profile is available for the context being studied, another option to use relative distance to TSS (e.g. 500kb) as prior to initally pair peaks and genes. A hg38 RefSef file is included in the demo for TSS reference.  
 
 
 A demo (~10mins run):
