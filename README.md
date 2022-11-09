@@ -93,8 +93,6 @@ There are paired data for 12 samples/subecjts. (check sample IDs if this number 
 
 ## MAGICAL circuit inference
 
-We provide both [MATLAB script] and [R script] for MAGICAL. The MATLAB script was used to generate the circuits used in the paper. The R script is provided here for people who don't have access to MATLAB. We will provide a R package later once we sufficiently test the R code. 
-
 #### **Build candidate circuits**  
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
