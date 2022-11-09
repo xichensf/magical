@@ -91,7 +91,13 @@ else
     Distance_control=5e5;%500kb to TSS
 end
 
-[Refseq.chr, Refseq.strand, Refseq.start, Refseq.end, Refseq.gene_name]=textread(Ref_seq_file_path, '%d %s %d %d %s', 'headerlines', 1);
+[Refseq.chr, Refseq.strand, Refseq.start, Refseq.end, Refseq.gene_name]=textread(Ref_seq_file_path, '%s %s %d %d %s', 'headerlines', 1);
+Refseq.chr_num=zeros(length(Refseq.chr), 1);
+for i=1:22
+    Refseq.chr_num(strcmp(Refseq.chr, ['chr', num2str(i)])>0,1)=i;
+    %we exclude X and Y chromosome by setting its chr index as 0
+end
+
 
 %summary of loaded data
 Group_conditions = unique(scRNA_cells.condition);

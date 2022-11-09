@@ -54,7 +54,7 @@ Candidate_genes.gene_TSS=zeros(length(Candidate_genes.gene_symbols), 2);% chr, T
 for g=1:length(Candidate_genes.gene_symbols)
     index=find(strcmp(Refseq.gene_name, Candidate_genes.gene_symbols{g})>0);
     if ~isempty(index)
-        Candidate_genes.gene_TSS(g,1)=Refseq.chr(index(1));
+        Candidate_genes.gene_TSS(g,1)=Refseq.chr_num(index(1));
         if strcmp(Refseq.strand(index(1)), '+')>0
             Candidate_genes.gene_TSS(g,2)=min(Refseq.start(index));
         else
