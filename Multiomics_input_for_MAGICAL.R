@@ -123,3 +123,4 @@ write.table(Peak_motif_mapping@assays@data@listData$matches@Dimnames[[2]], file 
 #make sure to check the motif name file to clean up the names and use the standard gene symbol for each motif
 
 
+\
