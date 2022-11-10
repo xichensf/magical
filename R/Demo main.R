@@ -1,6 +1,6 @@
 rm(list = ls())
 setwd('~/Desktop/MAGICAL demo/R')
-#source('~/Desktop/MAGICAL demo/R/MAGICAL_functions.R')
+source('~/Desktop/MAGICAL demo/R/MAGICAL_functions.R')
 
 library(Matrix)
 
@@ -28,8 +28,11 @@ Motif_name_file_path = '~/Desktop/MAGICAL demo/Demo input files/Motifs.txt'
 
 
 # TAD prior
-TAD_flag=0 #if no TAD provided, simply set the path as empty and set the flag to 0
+TAD_flag=1 #if no TAD provided, simply set the path as empty and set the flag to 0
 TAD_file_path = '~/Desktop/MAGICAL demo/Demo input files/RaoGM12878_40kb_TopDomTADs_filtered_hg38.txt'
+
+#TAD_flag=0 #if no TAD provided, simply set the path as empty and set the flag to 0
+#distance_control=5e5
 
 
 # Refseq file for transcription starting site extraction
@@ -42,82 +45,44 @@ prob_threshold_TF_peak_binding=0.8
 prob_threshold_peak_gene_looping=0.8
 
 
+loaded_data <- Data_loading(Candidate_gene_file_path, Candidate_peak_file_path,
+                            scRNA_readcount_file_path, scRNA_gene_file_path, scRNA_cellmeta_file_path,
+                            scATAC_readcount_file_path, scATAC_peak_file_path, scATAC_cellmeta_file_path,
+                            Motif_mapping_file_path, Motif_name_file_path, TAD_flag, TAD_file_path, Ref_seq_file_path,
+                            Output_file_path, prob_threshold_TF_peak_binding, prob_threshold_peak_gene_looping)
+
+ 
+ 
+#********************** candidate circuits construction ****************
 
 
-#*********************load all input data**********************
-print('loading all input data ...')
-
-#**********load candidate genes**********
-Candidate_genes <- read.table(Candidate_gene_file_path, sep='\t')
-colnames(Candidate_genes) = c("gene_symbols") 
-
-
-#**********load scRNAseq data**********
-scRNA_genes<-read.table(scRNA_gene_file_path, sep='\t')
-colnames(scRNA_genes) = c("gene_index", "gene_symbols")
-
-scRNA_cells<-read.table(scRNA_cellmeta_file_path, sep='\t')
-colnames(scRNA_cells) = c("cell_index", "cell_barcode", "cell_type", "subject_ID", "condition")
-
-scRNA_read_count_table<-read.table(scRNA_readcount_file_path, sep='\t')
-scRNA_read_count_matrix <- sparseMatrix(i = scRNA_read_count_table[,1], j=scRNA_read_count_table[,2], x=scRNA_read_count_table[,3],
-             dimnames=list(levels(scRNA_read_count_table[,1]), levels(scRNA_read_count_table[,2])), repr = "T")
-rm(scRNA_read_count_table)
-
-Group_conditions = unique(scRNA_cells$condition)
-print(paste('We detected', length(Group_conditions), 'conditions from the meta file', sep = ' '))
-
-scRNA_samples = unique(scRNA_cells$subject_ID)
-print(paste('The input scRNAseq data includes', length(scRNA_genes$gene_symbols),'genes and', length(scRNA_cells$cell_barcode),'cells from',length(scRNA_samples),'samples', sep = ' '))
-
-
-
-#**********load candidate peaks**********
-Candidate_peaks <- read.table(Candidate_peak_file_path, sep='\t')
-colnames(Candidate_peaks) = c("chr", "point1", 'point2')
-
-
-#**********load scATACseq data**********
-scATAC_peaks <- read.table(scATAC_peak_file_path, sep='\t')
-colnames(scATAC_peaks) = c("peak_index", "chr", "point1", 'point2')
-
-scATAC_cells <- read.table(scATAC_cellmeta_file_path, sep ="\t")
-colnames(scATAC_cells) = c("cell_index", "cell_barcode", "cell_type", 'subject_ID')
-
-scATAC_read_count_table <- read.table(scATAC_readcount_file_path, sep ="\t")
-scATAC_read_count_matrix <- sparseMatrix(i = scATAC_read_count_table[,1], j=scATAC_read_count_table[,2], x=scATAC_read_count_table[,3],
-                                        dimnames=list(levels(scATAC_read_count_table[,1]), levels(scATAC_read_count_table[,2])), repr = "T")
-rm(scATAC_read_count_table)
-
-scATAC_samples = unique(scATAC_cells$subject_ID)
-print(paste('The input scATACseq data includes',length(scATAC_peaks$peak_index), 'peaks and', length(scATAC_cells$cell_barcode), 'cells from', length(scATAC_samples), 'samples', sep = ' '))
-
-Common_samples=intersect(scRNA_samples, scATAC_samples);
-print(paste('There are paired data for', length(Common_samples), 'samples. (Please check sample IDs if this number is lower than expected).', sep = ' '))
-
-
-
-#**********load TF motif prior**********
-Motifs<-read.table(Motif_name_file_path, sep ="\t")
-colnames(Motifs) = c("motif_index", "name")
-Motif_mapping_table <- read.table(Motif_mapping_file_path)
-TF_peak_binding_matrix <- sparseMatrix(i = Motif_mapping_table[,1], j=Motif_mapping_table[,2], x=Motif_mapping_table[,3],
-                                         dimnames=list(levels(Motif_mapping_table[,1]), levels(Motif_mapping_table[,2])), repr = "T")
-rm(Motif_mapping_table)
-
-
-#**********load TAD prior**********
-#TAD_flag=1 if TAD prior is provided, TAD_flag=0 if not
-if (TAD_flag==1) {
-  TAD <- read.table(TAD_file_path, sep='\t')
-  colnames(TAD) = c("chr", "left_boundary", 'right_boundary')  
-} else {
-  Distance_control=5e5 #500kb to TSS
+if (TAD_flag==1){
+  
+  Candidate_circuits=Candidate_circuits_construction_with_TAD(loaded_data)
+  
+}else{
+  
+  Candidate_circuits=Candidate_circuits_construction_with_TAD(loaded_data, distance_control)
+  
 }
 
-Refseq <- read.table(Ref_seq_file_path, header = TRUE, sep='\t')
+
+#********************** Model initialization ****************************
+  
+  
+fprintf('MAGICAL model initialization ...\n\n')
+
+#To get T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob.
+Initial_model<-MAGICAL_initialization(loaded_data, Candidate_circuits)
 
 
-print(paste(length(Motifs$name), 'motifs,', length(Candidate_peaks$chr), 'candidate chromatin sites and', length(Candidate_genes$gene_symbols), 'candidate genes are provided.', sep = ' '))
+
+#************************* MAGICAL sampling ****************************
+  
+
+print('MAGICAL work starts ...')
+
+Final_circuits<-MAGICAL_estimation(loaded_data, Candidate_circuits, Initial_model)
 
 
+#************************* MAGICAL output ****************************
