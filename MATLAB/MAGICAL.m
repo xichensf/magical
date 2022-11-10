@@ -143,7 +143,7 @@ else
 end
 
 
-%********************** Modle initilization ****************************
+%********************** Model initialization ****************************
 
 
 fprintf('MAGICAL model initialization ...\n\n')

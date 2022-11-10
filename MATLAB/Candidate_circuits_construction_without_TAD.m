@@ -170,6 +170,9 @@ Candidate_TFs=Candidate_TFs(active_TF_index);
 Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding(:,active_TF_index);
 Candidate_TF_log2Count=Candidate_TF_log2Count(active_TF_index,:);
 
+for t=1:length(Candidate_TFs)
+    Candidate_TF_log2Count(t,:)=Candidate_TF_log2Count(t,:)-mean(Candidate_TF_log2Count(t,:));
+end
 
 %final filter and candidate circuits selection
 peak_index=find(sum(Candidate_Peak_Gene_looping,2)>0 & sum(Candidate_TF_Peak_Binding,2)>0);

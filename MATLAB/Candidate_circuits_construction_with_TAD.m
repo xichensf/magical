@@ -76,6 +76,16 @@ for t=1:length(TAD.chr_num)
 end
 
 
+Candidate_Peak_Gene_looping_distance_control=sparse(length(Candidate_peaks.peak_index), length(Candidate_genes.gene_symbols));
+for g=1:length(Candidate_genes.gene_symbols)
+    index=find(Candidate_peaks.chr_num-Candidate_genes.gene_TSS(g,1)==0 & abs((Candidate_peaks.point1+Candidate_peaks.point2)/2-Candidate_genes.gene_TSS(g,2))<1e6);
+    if ~isempty(index)
+        Candidate_Peak_Gene_looping_distance_control(index,g)=1;
+    end
+end
+
+Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping.*Candidate_Peak_Gene_looping_distance_control;
+
 peak_index=find(sum(Candidate_Peak_Gene_looping,2)>0);
 gene_index=find(sum(Candidate_Peak_Gene_looping)>0);
 Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping(peak_index,gene_index);
@@ -172,6 +182,10 @@ active_TF_index=find(sum(Candidate_TF_log2Count,2)>0);
 Candidate_TFs=Candidate_TFs(active_TF_index);
 Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding(:,active_TF_index);
 Candidate_TF_log2Count=Candidate_TF_log2Count(active_TF_index,:);
+
+for t=1:length(Candidate_TFs)
+    Candidate_TF_log2Count(t,:)=Candidate_TF_log2Count(t,:)-mean(Candidate_TF_log2Count(t,:));
+end
 
 
 %final filter and candidate circuits selection
