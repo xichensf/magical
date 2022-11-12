@@ -26,7 +26,7 @@ MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRN
 
 ## MAGICAL input
 
-MAGICAL only requires gene symbols, peak coordinates, read count and cell meta information including cell type, sample/subject ID and sample group/condition. These information are very fundamental and can be easily obtained from any single cell multioimc dataset. We provide [Multiomics_input_for_MAGICAL.R](https://github.com/xichensf/magical/blob/main/Multiomics_input_for_MAGICAL.R) to demo how to extra the necessary input files from the single cell multiomics data for use with MAGICAL. The script includes code to extract needed information from Seurat processed scRNA-seq data and ArchR or Signac processed scATAC-seq data. Since the single cell data files are usually very large, for testing MAGICAL, we provide demo input files that users can easily download and run MAGICAL on their local machine. [(download demo input files)](https://drive.google.com/file/d/1CerwMHMnS1PNFNMy00OoHQjn6T30M1j4/view?usp=sharing)
+MAGICAL only requires gene symbols, peak coordinates, read count and cell meta information including cell type, sample/subject ID and sample group/condition. These information are very fundamental and can be easily obtained from any single cell multioimc dataset. We provide [Multiomics_input_for_MAGICAL.R](https://github.com/xichensf/magical/blob/main/Multiomics_input_for_MAGICAL.R) to demo how to extra the necessary input files from the single cell multiomics data for use with MAGICAL. The script includes code to extract needed information from Seurat processed scRNA-seq data and ArchR or Signac processed scATAC-seq data. Since the single cell data files are usually very large, for testing MAGICAL, we provide demo input files that users can easily download and run MAGICAL on their local machine (~10 mins). [(download demo input files)](https://drive.google.com/file/d/1CerwMHMnS1PNFNMy00OoHQjn6T30M1j4/view?usp=sharing)
 
 
 #### **Cell type**
@@ -98,12 +98,12 @@ To identify candidate disease-modulated triads, candidate chromatin sites are as
 ```
 Candidate regulatory circuits construction ...
 
-MAGICAL model initialization ...
+93 TFs, 505 peaks and 398 genes are selected for circuit inference.
 ```
 #### **Infer circuit linkages** 
 MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and conditions and estimate the strength of the circuit TF-peak-gene linkages. The TF-peak binding confidence and the hidden TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the input gene expression data are used to infer the peak-gene looping. The updated states of TF-peak-gene linkages based on the estimated strength are used to initialize the next round of estimations. 
 ```
-MAGICAL work starts ...
+MAGICAL model initialization ...
 
 MAGICAL finished 10 percent
 
