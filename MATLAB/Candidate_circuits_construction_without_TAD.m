@@ -8,7 +8,7 @@ function [Candidate_TFs, Candidate_TF_log2Count,...
                                   Motifs, TF_peak_binding_matrix,...
                                   Refseq, Distance_control)
 
-fprintf('Candidate regulatory circuits constrcution ...\n\n')
+fprintf('Candidate regulatory circuits construction ...\n\n')
 
 % TF-peak binding
 [aa, bidex, cidex]=intersect([scATAC_peaks.chr_num, scATAC_peaks.point1, scATAC_peaks.point2], [Candidate_peaks.chr_num, Candidate_peaks.point1, Candidate_peaks.point2], 'rows', 'stable');
@@ -198,3 +198,7 @@ Candidate_peaks.chr_num=Candidate_peaks.chr_num(peak_index);
 Candidate_peaks.point1=Candidate_peaks.point1(peak_index);
 Candidate_peaks.point2=Candidate_peaks.point2(peak_index);
 Candidate_Peak_log2Count=Candidate_Peak_log2Count(peak_index,:);
+
+
+fprintf('MAGICAL initially select %d TFs, %d peaks and %d genes for circuit inference\n\n', length(Candidate_TFs), length(Candidate_peaks.peak_index), length(Candidate_genes.gene_symbols))
+

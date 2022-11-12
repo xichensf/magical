@@ -29,7 +29,7 @@ Motif_name_file_path = 'Demo input files/Motifs.txt';
 
 % TAD prior
 TAD_flag=0;%if no TAD provided, simply set the path as empty and set the flag to 0
-TAD_file_path = 'Demo input files/RaoGM12878_40kb_TopDomTADs_filtered_hg38.txt';
+TAD_file_path = '';
 
 
 % Refseq file for transcription starting site extraction

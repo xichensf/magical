@@ -4,12 +4,12 @@ function [T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mea
 % TF activity prior: TF RNA expression
 
 T_prior=Candidate_TF_log2Count;%mean per TF activity per sample
+T_mean=T_prior;
 T_var=ones(M, 1);
 for m=1:M
-    T_prior(m,:)=Candidate_TF_log2Count(m,:)-mean(Candidate_TF_log2Count(m,:));
     T_var(m)=var(Candidate_TF_log2Count(m,:));%variance of protein activity of TF t
 end
-T_mean=T_prior;
+
 
 
 % TF-peak binding prior: regression weight between TF activity (expression) and peak ATAC activity

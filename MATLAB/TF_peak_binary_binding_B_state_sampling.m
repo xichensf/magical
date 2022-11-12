@@ -64,5 +64,5 @@ for f=1:F
     end
 end
 
+B_new=B;
 B_state_new=B_state;
-B_new=B_state;
