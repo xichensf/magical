@@ -129,7 +129,7 @@ MAGICAL finished 100 percent
 Finally, optimized circuits fitting the variation in both modalities are selected. Circuit genes, assocaited chromatin sites and the regulatory TFs will be written to [MAGICAL_selected_regulatory_circuits.txt](https://github.com/xichensf/magical/blob/main/MAGICAL_selected_regulatory_circuits.txt). MAGICAL uses default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) for circuit selection. Users can adjust these thresholds in the provided scripts to allow more or fewer outputs.  
 
 ```
-MAGICAL selected regulatory circuits with 93 TFs, 390 peaks and 310 genes.
+MAGICAL selected regulatory circuits with 93 TFs, 407 peaks and 326 genes.
 ```
 
 
