@@ -8,23 +8,23 @@
 
 
 #***************************load all input files***************************
-Data_loading <- function(Candidate_gene_file_path, Candidate_peak_file_path,
-                         scRNA_readcount_file_path, scRNA_gene_file_path, scRNA_cellmeta_file_path,
-                         scATAC_readcount_file_path, scATAC_peak_file_path, scATAC_cellmeta_file_path,
+Data_loading <- function(Candidate_Gene_file_path, Candidate_Peak_file_path,
+                         scRNA_readcount_file_path, scRNA_Gene_file_path, scRNA_cellmeta_file_path,
+                         scATAC_readcount_file_path, scATAC_Peak_file_path, scATAC_cellmeta_file_path,
                          Motif_mapping_file_path, Motif_name_file_path, TAD_flag, TAD_file_path, Ref_seq_file_path,
-                         Output_file_path, prob_threshold_TF_peak_binding, prob_threshold_peak_gene_looping)
+                         Output_file_path, prob_threshold_TF_Peak_binding, prob_threshold_Peak_Gene_looping)
   {
   #*********************load all input data**********************
-  print('loading all input data ...')
+  print('loading scRNAseq data ...')
   
-  #**********load candidate genes**********
-  Candidate_genes <- read.table(Candidate_gene_file_path, sep='\t')
-  colnames(Candidate_genes) = c("gene_symbols") 
+  #**********load candidate Genes**********
+  Candidate_Genes <- read.table(Candidate_Gene_file_path, sep='\t')
+  colnames(Candidate_Genes) = c("Gene_symbols") 
   
   
   #**********load scRNAseq data**********
-  scRNA_genes<-read.table(scRNA_gene_file_path, sep='\t')
-  colnames(scRNA_genes) = c("gene_index", "gene_symbols")
+  scRNA_Genes<-read.table(scRNA_Gene_file_path, sep='\t')
+  colnames(scRNA_Genes) = c("Gene_index", "Gene_symbols")
   
   scRNA_cells<-read.table(scRNA_cellmeta_file_path, sep='\t')
   colnames(scRNA_cells) = c("cell_index", "cell_barcode", "cell_type", "subject_ID", "condition")
@@ -38,19 +38,20 @@ Data_loading <- function(Candidate_gene_file_path, Candidate_peak_file_path,
   print(paste('We detected', length(Group_conditions), 'conditions from the meta file', sep = ' '))
   
   scRNA_samples = unique(scRNA_cells$subject_ID)
-  print(paste('The input scRNAseq data includes', length(scRNA_genes$gene_symbols),'genes and', length(scRNA_cells$cell_barcode),'cells from',length(scRNA_samples),'samples', sep = ' '))
+  print(paste('The input scRNAseq data includes', length(scRNA_Genes$Gene_symbols),'Genes and', length(scRNA_cells$cell_barcode),'cells from',length(scRNA_samples),'samples', sep = ' '))
   
   
+  print('loading scATACseq data ...')
   
-  #**********load candidate peaks**********
-  Candidate_peaks <- read.table(Candidate_peak_file_path, sep='\t')
-  colnames(Candidate_peaks) = c("chr", "point1", 'point2')
+  #**********load candidate Peaks**********
+  Candidate_Peaks <- read.table(Candidate_Peak_file_path, sep='\t')
+  colnames(Candidate_Peaks) = c("chr", "point1", 'point2')
   
   
   #**********load scATACseq data**********
-  scATAC_peaks <- read.table(scATAC_peak_file_path, sep='\t')
-  scATAC_peaks <- scATAC_peaks[,c(1,2,3,4)]
-  colnames(scATAC_peaks) = c("peak_index", "chr", "point1", 'point2')
+  scATAC_Peaks <- read.table(scATAC_Peak_file_path, sep='\t')
+  scATAC_Peaks <- scATAC_Peaks[,c(1,2,3,4)]
+  colnames(scATAC_Peaks) = c("Peak_index", "chr", "point1", 'point2')
   
   scATAC_cells <- read.table(scATAC_cellmeta_file_path, sep ="\t")
   colnames(scATAC_cells) = c("cell_index", "cell_barcode", "cell_type", 'subject_ID')
@@ -61,18 +62,18 @@ Data_loading <- function(Candidate_gene_file_path, Candidate_peak_file_path,
   rm(scATAC_read_count_table)
   
   scATAC_samples = unique(scATAC_cells$subject_ID)
-  print(paste('The input scATACseq data includes',length(scATAC_peaks$peak_index), 'peaks and', length(scATAC_cells$cell_barcode), 'cells from', length(scATAC_samples), 'samples', sep = ' '))
+  print(paste('The input scATACseq data includes',length(scATAC_Peaks$Peak_index), 'Peaks and', length(scATAC_cells$cell_barcode), 'cells from', length(scATAC_samples), 'samples', sep = ' '))
   
   Common_samples=intersect(scRNA_samples, scATAC_samples)
   print(paste('There are sample-paired single cell multiomics data for', length(Common_samples), 'samples. (Please check sample IDs if this number is lower than expected).', sep = ' '))
   
   
-  
+  print('loading TF motif match data ...')
   #**********load TF motif prior**********
   Motifs<-read.table(Motif_name_file_path, sep ="\t")
   colnames(Motifs) = c("motif_index", "name")
   Motif_mapping_table <- read.table(Motif_mapping_file_path)
-  TF_peak_binding_matrix <- sparseMatrix(i = Motif_mapping_table[,1], j=Motif_mapping_table[,2], x=Motif_mapping_table[,3],
+  TF_Peak_binding_matrix <- sparseMatrix(i = Motif_mapping_table[,1], j=Motif_mapping_table[,2], x=Motif_mapping_table[,3],
                                          dimnames=list(levels(Motif_mapping_table[,1]), levels(Motif_mapping_table[,2])), repr = "T")
   rm(Motif_mapping_table)
   
@@ -86,21 +87,25 @@ Data_loading <- function(Candidate_gene_file_path, Candidate_peak_file_path,
     Distance_control=5e5 #500kb to TSS
   }
   
-  Refseq <- read.table(Ref_seq_file_path, header = TRUE, sep='\t')
   
-  print(paste(length(Motifs$name), 'motifs,', length(Candidate_peaks$chr), 'candidate chromatin sites and', length(Candidate_genes$gene_symbols), 'candidate genes are provided.', sep = ' '))
+  #**********load RefSeq**********
+  Refseq <- read.table(Ref_seq_file_path, header = TRUE, sep='\t')
+  colnames(Refseq) = c("chr", "strand", "start", 'end', 'Gene_symbols')
+  
+  print(paste(length(Motifs$name), 'motifs,', length(Candidate_Peaks$chr), 'candidate chromatin sites and', length(Candidate_Genes$Gene_symbols), 'candidate Genes are provided.', sep = ' '))
+  
   
   loaded_data = list('Common_samples'=Common_samples, 
-                     'Candidate_genes'=Candidate_genes, 
-                     'Candidate_peaks'=Candidate_peaks,
-                     'scRNA_genes'=scRNA_genes,
+                     'Candidate_Genes'=Candidate_Genes, 
+                     'Candidate_Peaks'=Candidate_Peaks,
+                     'scRNA_Genes'=scRNA_Genes,
                      'scRNA_cells'=scRNA_cells,
                      'scRNA_read_count_matrix'=scRNA_read_count_matrix,
-                     'scATAC_peaks'=scATAC_peaks, 
+                     'scATAC_Peaks'=scATAC_Peaks, 
                      'scATAC_cells'=scATAC_cells,
                      'scATAC_read_count_matrix'=scATAC_read_count_matrix,
                      'Motifs'=Motifs, 
-                     'TF_peak_binding_matrix'=TF_peak_binding_matrix,
+                     'TF_Peak_binding_matrix'=TF_Peak_binding_matrix,
                      'Refseq'=Refseq, 
                      'TAD'=TAD)
   return(loaded_data)
@@ -108,99 +113,94 @@ Data_loading <- function(Candidate_gene_file_path, Candidate_peak_file_path,
 
 
 
-
-
-
 #***************************build candidate circuits***************************
 Candidate_circuits_construction_with_TAD <- function(loaded_data){
-  print('Candidate regulatory circuits constrcution ...')
+  print('Build candidate regulatory circuits ...')
   
   Common_samples=loaded_data$Common_samples
-  Candidate_genes=loaded_data$Candidate_genes
-  Candidate_peaks=loaded_data$Candidate_peaks
-  scRNA_genes=loaded_data$scRNA_genes 
+  Candidate_Genes=loaded_data$Candidate_Genes
+  Candidate_Peaks=loaded_data$Candidate_Peaks
+  scRNA_Genes=loaded_data$scRNA_Genes 
   scRNA_cells=loaded_data$scRNA_cells 
   scRNA_read_count_matrix=loaded_data$scRNA_read_count_matrix
-  scATAC_peaks=loaded_data$scATAC_peaks 
+  scATAC_Peaks=loaded_data$scATAC_Peaks 
   scATAC_cells=loaded_data$scATAC_cells 
   scATAC_read_count_matrix=loaded_data$scATAC_read_count_matrix
   Motifs=loaded_data$Motifs 
-  TF_peak_binding_matrix=loaded_data$TF_peak_binding_matrix
+  TF_Peak_binding_matrix=loaded_data$TF_Peak_binding_matrix
   Refseq=loaded_data$Refseq
   TAD=loaded_data$TAD
   
   
-  # TF-peak binding
+  # TF-Peak binding
   library(dplyr)
-  Candidate_peaks<-inner_join(scATAC_peaks, Candidate_peaks)
-  index<-match(Candidate_peaks$peak_index, scATAC_peaks$peak_index)
-  Candidate_TF_Peak_Binding<-TF_peak_binding_matrix[index,]
+  Candidate_Peaks<-inner_join(scATAC_Peaks, Candidate_Peaks)
+  index<-match(Candidate_Peaks$Peak_index, scATAC_Peaks$Peak_index)
+  Candidate_TF_Peak_Binding<-TF_Peak_binding_matrix[index,]
   TF_num<-colSums(Candidate_TF_Peak_Binding)
-  TF_pct_in_candidate_peaks<-colSums(Candidate_TF_Peak_Binding)/nrow(Candidate_peaks)
-  TF_pct_in_all_peaks<-colSums(TF_peak_binding_matrix)/nrow(scATAC_peaks)
-  TF_enrichment_FC<-TF_pct_in_candidate_peaks/TF_pct_in_all_peaks
-  TF_index<-which(TF_pct_in_candidate_peaks>0.05 & TF_num>30 & TF_enrichment_FC>1.2)
+  TF_pct_in_candidate_Peaks<-colSums(Candidate_TF_Peak_Binding)/nrow(Candidate_Peaks)
+  TF_pct_in_all_Peaks<-colSums(TF_Peak_binding_matrix)/nrow(scATAC_Peaks)
+  TF_enrichment_FC<-TF_pct_in_candidate_Peaks/TF_pct_in_all_Peaks
+  TF_index<-which(TF_pct_in_candidate_Peaks>0.05 & TF_num>30 & TF_enrichment_FC>1.2)
   if (length(TF_index) == 0){
-    print('Too few peaks with TF binding sites.')
+    print('Too few Peaks with TF binding sites.')
     print('MAGICAL not applicable to this cell type!')
   }else{
     Candidate_TFs <- Motifs[TF_index,]
     Candidate_TF_Peak_Binding <- Candidate_TF_Peak_Binding[,TF_index]
   }
-  peak_index<-which(rowSums(Candidate_TF_Peak_Binding)>0)
-  Candidate_peaks <- Candidate_peaks[peak_index,]
-  Candidate_TF_Peak_Binding <- Candidate_TF_Peak_Binding[peak_index,]
+  Peak_index<-which(rowSums(Candidate_TF_Peak_Binding)>0)
+  Candidate_Peaks <- Candidate_Peaks[Peak_index,]
+  Candidate_TF_Peak_Binding <- Candidate_TF_Peak_Binding[Peak_index,]
   
   
   
-  # extract gene TSS
-  gene_symbols<-intersect(intersect(Candidate_genes$gene_symbols, Refseq$gene_name), scRNA_genes$gene_symbols)
-  gene_chr=character(length(gene_symbols))
-  gene_TSS=integer(length(gene_symbols))
-  Candidate_genes=data.frame(gene_symbols, gene_chr, gene_TSS)
-  colnames(Candidate_genes) = c("gene_symbols", "chr", "TSS")
-  for (g in 1:length(gene_symbols)){
-    index = which(Refseq$gene_name==Candidate_genes$gene_symbols[g])
-    Candidate_genes$chr[g] <- Refseq$chr[index[1]]
+  # extract Gene TSS
+  Gene_symbols<-intersect(intersect(Candidate_Genes$Gene_symbols, Refseq$Gene_symbols), scRNA_Genes$Gene_symbols)
+  Gene_chr=character(length(Gene_symbols))
+  Gene_TSS=integer(length(Gene_symbols))
+  Candidate_Genes=data.frame(Gene_symbols, Gene_chr, Gene_TSS)
+  colnames(Candidate_Genes) = c("Gene_symbols", "chr", "TSS")
+  for (g in 1:length(Gene_symbols)){
+    index = which(Refseq$Gene_symbols==Candidate_Genes$Gene_symbols[g])
+    Candidate_Genes$chr[g] <- Refseq$chr[index[1]]
     if (Refseq$strand[index[1]]=='+'){
-      Candidate_genes$TSS[g] <- min(Refseq$start[index])
+      Candidate_Genes$TSS[g] <- min(Refseq$start[index])
     }else{
-      Candidate_genes$TSS[g] <- max(Refseq$end[index])
+      Candidate_Genes$TSS[g] <- max(Refseq$end[index])
     }
   }
+
   
-  
-  
-  # Peak-gene looping
-  Candidate_Peak_Gene_looping_TAD=sparseMatrix(i=1,j=1,x=0, dims=c(nrow(Candidate_peaks), nrow(Candidate_genes)), repr = "T")
+  # Peak-Gene looping
+  Candidate_Peak_Gene_looping_TAD=sparseMatrix(i=1,j=1,x=0, dims=c(nrow(Candidate_Peaks), nrow(Candidate_Genes)), repr = "T")
   for (t in 1:nrow(TAD)){
 #    if (TAD$right_boundary[t]-TAD$left_boundary[t]<2e6){
-      peak_index=which(Candidate_peaks$chr==TAD$chr[t] & Candidate_peaks$point1>TAD$left_boundary[t] & Candidate_peaks$point2<TAD$right_boundary[t])
-      gene_index=which(Candidate_genes$chr==TAD$chr[t] & Candidate_genes$TSS>TAD$left_boundary[t] & Candidate_genes$TSS<TAD$right_boundary[t])
-      if (length(peak_index)>0 && length(gene_index)>0){
-        Candidate_Peak_Gene_looping_TAD[peak_index,gene_index]=1
+      Peak_index=which(Candidate_Peaks$chr==TAD$chr[t] & Candidate_Peaks$point1>TAD$left_boundary[t] & Candidate_Peaks$point2<TAD$right_boundary[t])
+      Gene_index=which(Candidate_Genes$chr==TAD$chr[t] & Candidate_Genes$TSS>TAD$left_boundary[t] & Candidate_Genes$TSS<TAD$right_boundary[t])
+      if (length(Peak_index)>0 && length(Gene_index)>0){
+        Candidate_Peak_Gene_looping_TAD[Peak_index,Gene_index]=1
       }
 #    }
   }
-  #some TAD could be extra wide, based on HiC interaction scale, we limit the peak-gene distance upto 1M bps
-  Candidate_Peak_Gene_looping_distance_control=sparseMatrix(i=1,j=1,x=0, dims=c(nrow(Candidate_peaks), nrow(Candidate_genes)), repr = "T")
-  for (g in 1:length(Candidate_genes$gene_symbols)){
-    index=which(Candidate_peaks$chr==Candidate_genes$chr[g] & abs((Candidate_peaks$point1+Candidate_peaks$point2)/2-Candidate_genes$TSS[g])<1e6)
+  #some TAD could be extra wide, based on HiC interaction scale, we limit the Peak-Gene distance upto 1M bps
+  Candidate_Peak_Gene_looping_distance_control=sparseMatrix(i=1,j=1,x=0, dims=c(nrow(Candidate_Peaks), nrow(Candidate_Genes)), repr = "T")
+  for (g in 1:length(Candidate_Genes$Gene_symbols)){
+    index=which(Candidate_Peaks$chr==Candidate_Genes$chr[g] & abs((Candidate_Peaks$point1+Candidate_Peaks$point2)/2-Candidate_Genes$TSS[g])<1e6)
     if (length(index)>0){
       Candidate_Peak_Gene_looping_distance_control[index,g]=1
     }
   }
-  Candidate_Peak_Gene_looping<-Candidate_Peak_Gene_looping_TAD*Candidate_Peak_Gene_looping_distance_control
-  peak_index<-which(rowSums(Candidate_Peak_Gene_looping)>0)
-  gene_index<-which(colSums(Candidate_Peak_Gene_looping)>0)
-  Candidate_Peak_Gene_looping<-Candidate_Peak_Gene_looping[peak_index,gene_index]
-  Candidate_peaks<-Candidate_peaks[peak_index,]
-  Candidate_genes<-Candidate_genes[gene_index,]
-  TF_index=which(colSums(Candidate_TF_Peak_Binding[peak_index,])>0)
+  Candidate_Peak_Gene_looping<-as(Candidate_Peak_Gene_looping_TAD*Candidate_Peak_Gene_looping_distance_control, "dgTMatrix")
+  
+  Peak_index<-which(rowSums(Candidate_Peak_Gene_looping)>0)
+  Gene_index<-which(colSums(Candidate_Peak_Gene_looping)>0)
+  Candidate_Peak_Gene_looping<-Candidate_Peak_Gene_looping[Peak_index,Gene_index]
+  Candidate_Peaks<-Candidate_Peaks[Peak_index,]
+  Candidate_Genes<-Candidate_Genes[Gene_index,]
+  TF_index=which(colSums(Candidate_TF_Peak_Binding[Peak_index,])>0)
   Candidate_TFs=Candidate_TFs[TF_index,]
-  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[peak_index, TF_index]
-  
-  
+  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[Peak_index, TF_index]
   
   
   #pseudobulk data is calculated for model initialization
@@ -209,14 +209,14 @@ Candidate_circuits_construction_with_TAD <- function(loaded_data){
     ATAC_count[,s]=rowSums(scATAC_read_count_matrix[,which(scATAC_cells$subject_ID==Common_samples[s])])
   }
   colnames(ATAC_count)<-Common_samples
-  rownames(ATAC_count)<-scATAC_peaks$peak_index
+  rownames(ATAC_count)<-scATAC_Peaks$Peak_index
   
   RNA_count=matrix(0,nrow=nrow(scRNA_read_count_matrix), ncol=length(Common_samples))
   for (s in 1:length(Common_samples)){
     RNA_count[,s]=rowSums(scRNA_read_count_matrix[,which(scRNA_cells$subject_ID==Common_samples[s])])
   }
   colnames(RNA_count)<-Common_samples
-  rownames(RNA_count)<-scRNA_genes$gene_symbols
+  rownames(RNA_count)<-scRNA_Genes$Gene_symbols
   
   #normalization
   total_ATAC_reads=5e6
@@ -230,36 +230,37 @@ Candidate_circuits_construction_with_TAD <- function(loaded_data){
   RNA_log2=log2(RNA_count+1)
   
   
-  # select actively accessbile peaks
-  index=match(Candidate_peaks$peak_index, scATAC_peaks$peak_index)
+  # select actively accessbile Peaks
+  index=match(Candidate_Peaks$Peak_index, scATAC_Peaks$Peak_index)
   Candidate_Peak_log2Count=ATAC_log2[index,]
   
-  peak_index=which(rowSums(Candidate_Peak_log2Count)>0)
-  Candidate_peaks=Candidate_peaks[peak_index,]
-  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[peak_index,]
-  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[peak_index,]
-  Candidate_Peak_log2Count=Candidate_Peak_log2Count[peak_index,]
+  Peak_index=which(rowSums(Candidate_Peak_log2Count)>0)
+  Candidate_Peaks=Candidate_Peaks[Peak_index,]
+  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[Peak_index,]
+  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[Peak_index,]
+  Candidate_Peak_log2Count=Candidate_Peak_log2Count[Peak_index,]
   Candidate_Peak_log2Count=sweep(Candidate_Peak_log2Count, 1, rowMeans(Candidate_Peak_log2Count), '-')
   
   
-  # select actively expressed genes
-  index=match(Candidate_genes$gene_symbols, scRNA_genes$gene_symbols)
+  # select actively expressed Genes
+  index=match(Candidate_Genes$Gene_symbols, scRNA_Genes$Gene_symbols)
   Candidate_Gene_log2Count=RNA_log2[index,]
   
-  gene_index=which(rowSums(Candidate_Gene_log2Count)>0)
-  Candidate_genes=Candidate_genes[gene_index,]
-  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[,gene_index]
-  Candidate_Gene_log2Count=Candidate_Gene_log2Count[gene_index,]
+  Gene_index=which(rowSums(Candidate_Gene_log2Count)>0)
+  Candidate_Genes=Candidate_Genes[Gene_index,]
+  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[,Gene_index]
+  Candidate_Gene_log2Count=Candidate_Gene_log2Count[Gene_index,]
   Candidate_Gene_log2Count=sweep(Candidate_Gene_log2Count, 1, rowMeans(Candidate_Gene_log2Count), '-')
   
   
   # select actively expressed TFs
-  selected_TFs=intersect(Candidate_TFs$name, scRNA_genes$gene_symbols)
+  selected_TFs=intersect(Candidate_TFs$name, scRNA_Genes$Gene_symbols)
+  
   index=match(selected_TFs, Candidate_TFs$name)
   Candidate_TFs=Candidate_TFs[index,]
-  
-  index=match(selected_TFs, scRNA_genes$gene_symbols)
   Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[,index]
+  
+  index=match(selected_TFs, scRNA_Genes$Gene_symbols)
   Candidate_TF_log2Count=RNA_log2[index,]
   
   TF_index=which(rowSums(Candidate_TF_log2Count)>0)
@@ -271,27 +272,27 @@ Candidate_circuits_construction_with_TAD <- function(loaded_data){
   
   
   # final filtering for candidate circuits
-  peak_index=which(rowSums(Candidate_Peak_Gene_looping)>0 & rowSums(Candidate_TF_Peak_Binding)>0)
-  gene_index=which(colSums(Candidate_Peak_Gene_looping[peak_index,])>0)
-  TF_index=which(colSums(Candidate_TF_Peak_Binding[peak_index,])>0)
+  Peak_index=which(rowSums(Candidate_Peak_Gene_looping)>0 & rowSums(Candidate_TF_Peak_Binding)>0)
+  Gene_index=which(colSums(Candidate_Peak_Gene_looping[Peak_index,])>0)
+  TF_index=which(colSums(Candidate_TF_Peak_Binding[Peak_index,])>0)
   
-  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[peak_index,TF_index]
-  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[peak_index,gene_index]
+  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[Peak_index,TF_index]
+  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[Peak_index,Gene_index]
   
   Candidate_TFs=Candidate_TFs[TF_index,]
   Candidate_TF_log2Count=Candidate_TF_log2Count[TF_index,]
   
-  Candidate_peaks=Candidate_peaks[peak_index,]
-  Candidate_Peak_log2Count=Candidate_Peak_log2Count[peak_index,]  
+  Candidate_Peaks=Candidate_Peaks[Peak_index,]
+  Candidate_Peak_log2Count=Candidate_Peak_log2Count[Peak_index,]  
   
-  Candidate_genes=Candidate_genes[gene_index,]
-  Candidate_Gene_log2Count=Candidate_Gene_log2Count[gene_index,]
+  Candidate_Genes=Candidate_Genes[Gene_index,]
+  Candidate_Gene_log2Count=Candidate_Gene_log2Count[Gene_index,]
   
   Candidate_circuits=list('TFs'=Candidate_TFs, 
                           'TF_log2Count'=Candidate_TF_log2Count,
-                          'Peaks'=Candidate_peaks, 
+                          'Peaks'=Candidate_Peaks, 
                           'Peak_log2Count'=Candidate_Peak_log2Count,
-                          'Genes'=Candidate_genes, 
+                          'Genes'=Candidate_Genes, 
                           'Gene_log2Count'=Candidate_Gene_log2Count,
                           'TF_Peak_Binding'=Candidate_TF_Peak_Binding, 
                           'Peak_Gene_looping'=Candidate_Peak_Gene_looping)
@@ -302,80 +303,80 @@ Candidate_circuits_construction_with_TAD <- function(loaded_data){
 
 #***************************build candidate circuits***************************
 Candidate_circuits_construction_without_TAD <- function(loaded_data, distance_control){
-  print('Candidate regulatory circuits constrcution ...')
+  print('Build candidate regulatory circuits ...')
   
   Common_samples=loaded_data$Common_samples
-  Candidate_genes=loaded_data$Candidate_genes
-  Candidate_peaks=loaded_data$Candidate_peaks
-  scRNA_genes=loaded_data$scRNA_genes 
+  Candidate_Genes=loaded_data$Candidate_Genes
+  Candidate_Peaks=loaded_data$Candidate_Peaks
+  scRNA_Genes=loaded_data$scRNA_Genes 
   scRNA_cells=loaded_data$scRNA_cells 
   scRNA_read_count_matrix=loaded_data$scRNA_read_count_matrix
-  scATAC_peaks=loaded_data$scATAC_peaks 
+  scATAC_Peaks=loaded_data$scATAC_Peaks 
   scATAC_cells=loaded_data$scATAC_cells 
   scATAC_read_count_matrix=loaded_data$scATAC_read_count_matrix
   Motifs=loaded_data$Motifs 
-  TF_peak_binding_matrix=loaded_data$TF_peak_binding_matrix
+  TF_Peak_binding_matrix=loaded_data$TF_Peak_binding_matrix
   Refseq=loaded_data$Refseq
   
   
-  # TF-peak binding
+  # TF-Peak binding
   library(dplyr)
-  Candidate_peaks<-inner_join(scATAC_peaks, Candidate_peaks)
-  index<-match(Candidate_peaks$peak_index, scATAC_peaks$peak_index)
-  Candidate_TF_Peak_Binding<-TF_peak_binding_matrix[index,]
+  Candidate_Peaks<-inner_join(scATAC_Peaks, Candidate_Peaks)
+  index<-match(Candidate_Peaks$Peak_index, scATAC_Peaks$Peak_index)
+  Candidate_TF_Peak_Binding<-TF_Peak_binding_matrix[index,]
   TF_num<-colSums(Candidate_TF_Peak_Binding)
-  TF_pct_in_candidate_peaks<-colSums(Candidate_TF_Peak_Binding)/nrow(Candidate_peaks)
-  TF_pct_in_all_peaks<-colSums(TF_peak_binding_matrix)/nrow(scATAC_peaks)
-  TF_enrichment_FC<-TF_pct_in_candidate_peaks/TF_pct_in_all_peaks
-  TF_index<-which(TF_pct_in_candidate_peaks>0.05 & TF_num>30 & TF_enrichment_FC>1.2)
+  TF_pct_in_candidate_Peaks<-colSums(Candidate_TF_Peak_Binding)/nrow(Candidate_Peaks)
+  TF_pct_in_all_Peaks<-colSums(TF_Peak_binding_matrix)/nrow(scATAC_Peaks)
+  TF_enrichment_FC<-TF_pct_in_candidate_Peaks/TF_pct_in_all_Peaks
+  TF_index<-which(TF_pct_in_candidate_Peaks>0.05 & TF_num>30 & TF_enrichment_FC>1.2)
   if (length(TF_index) == 0){
-    print('Too few peaks with TF binding sites.')
+    print('Too few Peaks with TF binding sites.')
     print('MAGICAL not applicable to this cell type!')
   }else{
     Candidate_TFs <- Motifs[TF_index,]
     Candidate_TF_Peak_Binding <- Candidate_TF_Peak_Binding[,TF_index]
   }
-  peak_index<-which(rowSums(Candidate_TF_Peak_Binding)>0)
-  Candidate_peaks <- Candidate_peaks[peak_index,]
-  Candidate_TF_Peak_Binding <- Candidate_TF_Peak_Binding[peak_index,]
+  Peak_index<-which(rowSums(Candidate_TF_Peak_Binding)>0)
+  Candidate_Peaks <- Candidate_Peaks[Peak_index,]
+  Candidate_TF_Peak_Binding <- Candidate_TF_Peak_Binding[Peak_index,]
   
   
   
-  # extract gene TSS
-  gene_symbols<-intersect(intersect(Candidate_genes$gene_symbols, Refseq$gene_name), scRNA_genes$gene_symbols)
-  gene_chr=character(length(gene_symbols))
-  gene_TSS=integer(length(gene_symbols))
-  Candidate_genes=data.frame(gene_symbols, gene_chr, gene_TSS)
-  colnames(Candidate_genes) = c("gene_symbols", "chr", "TSS")
-  for (g in 1:length(gene_symbols)){
-    index = which(Refseq$gene_name==Candidate_genes$gene_symbols[g])
-    Candidate_genes$chr[g] <- Refseq$chr[index[1]]
+  # extract Gene TSS
+  Gene_symbols<-intersect(intersect(Candidate_Genes$Gene_symbols, Refseq$Gene_symbols), scRNA_Genes$Gene_symbols)
+  Gene_chr=character(length(Gene_symbols))
+  Gene_TSS=integer(length(Gene_symbols))
+  Candidate_Genes=data.frame(Gene_symbols, Gene_chr, Gene_TSS)
+  colnames(Candidate_Genes) = c("Gene_symbols", "chr", "TSS")
+  for (g in 1:length(Gene_symbols)){
+    index = which(Refseq$Gene_symbols==Candidate_Genes$Gene_symbols[g])
+    Candidate_Genes$chr[g] <- Refseq$chr[index[1]]
     if (Refseq$strand[index[1]]=='+'){
-      Candidate_genes$TSS[g] <- min(Refseq$start[index])
+      Candidate_Genes$TSS[g] <- min(Refseq$start[index])
     }else{
-      Candidate_genes$TSS[g] <- max(Refseq$end[index])
+      Candidate_Genes$TSS[g] <- max(Refseq$end[index])
     }
   }
   
   
   
-  # Peak-gene looping
-  Candidate_Peak_Gene_looping_distance_control=sparseMatrix(i=1,j=1,x=0, dims=c(nrow(Candidate_peaks), nrow(Candidate_genes)), repr = "T")
-  for (g in 1:length(Candidate_genes$gene_symbols)){
-    index=which(Candidate_peaks$chr==Candidate_genes$chr[g] & abs((Candidate_peaks$point1+Candidate_peaks$point2)/2-Candidate_genes$TSS[g])<distance_control)
+  # Peak-Gene looping
+  Candidate_Peak_Gene_looping_distance_control=sparseMatrix(i=1,j=1,x=0, dims=c(nrow(Candidate_Peaks), nrow(Candidate_Genes)), repr = "T")
+  for (g in 1:length(Candidate_Genes$Gene_symbols)){
+    index=which(Candidate_Peaks$chr==Candidate_Genes$chr[g] & abs((Candidate_Peaks$point1+Candidate_Peaks$point2)/2-Candidate_Genes$TSS[g])<distance_control)
     if (length(index)>0){
       Candidate_Peak_Gene_looping_distance_control[index,g]=1
     }
   }
   Candidate_Peak_Gene_looping<-Candidate_Peak_Gene_looping_distance_control
-  peak_index<-which(rowSums(Candidate_Peak_Gene_looping)>0)
-  gene_index<-which(colSums(Candidate_Peak_Gene_looping)>0)
-  Candidate_Peak_Gene_looping<-Candidate_Peak_Gene_looping[peak_index,gene_index]
-  Candidate_peaks<-Candidate_peaks[peak_index,]
-  Candidate_genes<-Candidate_genes[gene_index,]
-  TF_index=which(colSums(Candidate_TF_Peak_Binding[peak_index,])>0)
+  Peak_index<-which(rowSums(Candidate_Peak_Gene_looping)>0)
+  Gene_index<-which(colSums(Candidate_Peak_Gene_looping)>0)
+  Candidate_Peak_Gene_looping<-Candidate_Peak_Gene_looping[Peak_index,Gene_index]
+  Candidate_Peaks<-Candidate_Peaks[Peak_index,]
+  Candidate_Genes<-Candidate_Genes[Gene_index,]
+  TF_index=which(colSums(Candidate_TF_Peak_Binding[Peak_index,])>0)
   Candidate_TFs=Candidate_TFs[TF_index,]
-  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[peak_index, TF_index]
+  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[Peak_index, TF_index]
   
   
   
@@ -386,14 +387,14 @@ Candidate_circuits_construction_without_TAD <- function(loaded_data, distance_co
     ATAC_count[,s]=rowSums(scATAC_read_count_matrix[,which(scATAC_cells$subject_ID==Common_samples[s])])
   }
   colnames(ATAC_count)<-Common_samples
-  rownames(ATAC_count)<-scATAC_peaks$peak_index
+  rownames(ATAC_count)<-scATAC_Peaks$Peak_index
   
   RNA_count=matrix(0,nrow=nrow(scRNA_read_count_matrix), ncol=length(Common_samples))
   for (s in 1:length(Common_samples)){
     RNA_count[,s]=rowSums(scRNA_read_count_matrix[,which(scRNA_cells$subject_ID==Common_samples[s])])
   }
   colnames(RNA_count)<-Common_samples
-  rownames(RNA_count)<-scRNA_genes$gene_symbols
+  rownames(RNA_count)<-scRNA_Genes$Gene_symbols
   
   #normalization
   total_ATAC_reads=5e6
@@ -407,36 +408,36 @@ Candidate_circuits_construction_without_TAD <- function(loaded_data, distance_co
   RNA_log2=log2(RNA_count+1)
   
   
-  # select actively accessbile peaks
-  index=match(Candidate_peaks$peak_index, scATAC_peaks$peak_index)
+  # select actively accessbile Peaks
+  index=match(Candidate_Peaks$Peak_index, scATAC_Peaks$Peak_index)
   Candidate_Peak_log2Count=ATAC_log2[index,]
   
-  peak_index=which(rowSums(Candidate_Peak_log2Count)>0)
-  Candidate_peaks=Candidate_peaks[peak_index,]
-  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[peak_index,]
-  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[peak_index,]
-  Candidate_Peak_log2Count=Candidate_Peak_log2Count[peak_index,]
+  Peak_index=which(rowSums(Candidate_Peak_log2Count)>0)
+  Candidate_Peaks=Candidate_Peaks[Peak_index,]
+  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[Peak_index,]
+  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[Peak_index,]
+  Candidate_Peak_log2Count=Candidate_Peak_log2Count[Peak_index,]
   Candidate_Peak_log2Count=sweep(Candidate_Peak_log2Count, 1, rowMeans(Candidate_Peak_log2Count), '-')
   
   
-  # select actively expressed genes
-  index=match(Candidate_genes$gene_symbols, scRNA_genes$gene_symbols)
+  # select actively expressed Genes
+  index=match(Candidate_Genes$Gene_symbols, scRNA_Genes$Gene_symbols)
   Candidate_Gene_log2Count=RNA_log2[index,]
   
-  gene_index=which(rowSums(Candidate_Gene_log2Count)>0)
-  Candidate_genes=Candidate_genes[gene_index,]
-  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[,gene_index]
-  Candidate_Gene_log2Count=Candidate_Gene_log2Count[gene_index,]
+  Gene_index=which(rowSums(Candidate_Gene_log2Count)>0)
+  Candidate_Genes=Candidate_Genes[Gene_index,]
+  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[,Gene_index]
+  Candidate_Gene_log2Count=Candidate_Gene_log2Count[Gene_index,]
   Candidate_Gene_log2Count=sweep(Candidate_Gene_log2Count, 1, rowMeans(Candidate_Gene_log2Count), '-')
   
   
   # select actively expressed TFs
-  selected_TFs=intersect(Candidate_TFs$name, scRNA_genes$gene_symbols)
+  selected_TFs=intersect(Candidate_TFs$name, scRNA_Genes$Gene_symbols)
   index=match(selected_TFs, Candidate_TFs$name)
   Candidate_TFs=Candidate_TFs[index,]
-  
-  index=match(selected_TFs, scRNA_genes$gene_symbols)
   Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[,index]
+  
+  index=match(selected_TFs, scRNA_Genes$Gene_symbols)
   Candidate_TF_log2Count=RNA_log2[index,]
   
   TF_index=which(rowSums(Candidate_TF_log2Count)>0)
@@ -448,30 +449,301 @@ Candidate_circuits_construction_without_TAD <- function(loaded_data, distance_co
   
   
   # final filtering for candidate circuits
-  peak_index=which(rowSums(Candidate_Peak_Gene_looping)>0 & rowSums(Candidate_TF_Peak_Binding)>0)
-  gene_index=which(colSums(Candidate_Peak_Gene_looping[peak_index,])>0)
-  TF_index=which(colSums(Candidate_TF_Peak_Binding[peak_index,])>0)
+  Peak_index=which(rowSums(Candidate_Peak_Gene_looping)>0 & rowSums(Candidate_TF_Peak_Binding)>0)
+  Gene_index=which(colSums(Candidate_Peak_Gene_looping[Peak_index,])>0)
+  TF_index=which(colSums(Candidate_TF_Peak_Binding[Peak_index,])>0)
   
-  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[peak_index,TF_index]
-  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[peak_index,gene_index]
+  Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding[Peak_index,TF_index]
+  Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping[Peak_index,Gene_index]
   
   Candidate_TFs=Candidate_TFs[TF_index,]
   Candidate_TF_log2Count=Candidate_TF_log2Count[TF_index,]
   
-  Candidate_peaks=Candidate_peaks[peak_index,]
-  Candidate_Peak_log2Count=Candidate_Peak_log2Count[peak_index,]  
+  Candidate_Peaks=Candidate_Peaks[Peak_index,]
+  Candidate_Peak_log2Count=Candidate_Peak_log2Count[Peak_index,]  
   
-  Candidate_genes=Candidate_genes[gene_index,]
-  Candidate_Gene_log2Count=Candidate_Gene_log2Count[gene_index,]
+  Candidate_Genes=Candidate_Genes[Gene_index,]
+  Candidate_Gene_log2Count=Candidate_Gene_log2Count[Gene_index,]
   
   Candidate_circuits=list('TFs'=Candidate_TFs, 
                           'TF_log2Count'=Candidate_TF_log2Count,
-                          'Peaks'=Candidate_peaks, 
+                          'Peaks'=Candidate_Peaks, 
                           'Peak_log2Count'=Candidate_Peak_log2Count,
-                          'Genes'=Candidate_genes, 
+                          'Genes'=Candidate_Genes, 
                           'Gene_log2Count'=Candidate_Gene_log2Count,
                           'TF_Peak_Binding'=Candidate_TF_Peak_Binding, 
                           'Peak_Gene_looping'=Candidate_Peak_Gene_looping)
   return(Candidate_circuits)
 }
 
+
+
+
+#*************************** MCMC model initialization ***************************
+#for MCMC method, the initial values of parameters are not deterministic for the results 
+#use pseudo bulk data to initialize the model as only at this dimension all data are matched
+
+
+MAGICAL_initialization <- function(loaded_data, Candidate_circuits){
+  print('MAGICAL model initialization ...')
+  
+  Candidate_TFs <- Candidate_circuits$TFs
+  Candidate_TF_log2Count <- Candidate_circuits$TF_log2Count 
+  Candidate_Peaks <- Candidate_circuits$Peaks
+  Candidate_Peak_log2Count <- Candidate_circuits$Peak_log2Count
+  Candidate_Genes <- Candidate_circuits$Genes
+  Candidate_Gene_log2Count <- Candidate_circuits$Gene_log2Count 
+  Candidate_TF_Peak_Binding <- Candidate_circuits$TF_Peak_Binding 
+  Candidate_Peak_Gene_looping <- Candidate_circuits$Peak_Gene_looping
+  
+  
+  S <- length(loaded_data$Common_samples)
+  M <- nrow(Candidate_TFs)#total number of candidate TFs
+  P <- nrow(Candidate_Peaks)#total number of candidate Peaks
+  G <- nrow(Candidate_Genes)#total number of candidate Genes
+
+  
+  # TF activity prior: TF RNA expression
+  T_prior <- Candidate_TF_log2Count
+  T_mean <- Candidate_TF_log2Count
+  T_var = matrix(0, nrow=M, ncol=S)
+  for (m in 1:M){
+    T_var[m,] <- var(Candidate_TF_log2Count[m,])
+  }
+  
+  
+  # TF-Peak binding prior: regression weight between TF activity (expression) and Peak ATAC activity
+  B_prior = as.matrix(Candidate_TF_Peak_Binding)
+  B_prob = as.matrix(Candidate_TF_Peak_Binding)
+  for (b in 1:length(Candidate_TF_Peak_Binding@x)){
+    mdl = summary(lm(Candidate_Peak_log2Count[Candidate_TF_Peak_Binding@i[b]+1,]~Candidate_TF_log2Count[Candidate_TF_Peak_Binding@j[b]+1,]))
+    B_prior[Candidate_TF_Peak_Binding@i[b]+1, Candidate_TF_Peak_Binding@j[b]+1] = mdl$coefficients[2,1]
+    B_prob[Candidate_TF_Peak_Binding@i[b]+1, Candidate_TF_Peak_Binding@j[b]+1] = mdl$coefficients[2,4]
+  }
+  B_mean = B_prior
+  B_var = matrix(0, nrow=P, ncol=M)
+  for (m in 1:M){
+    B_var[which(Candidate_TF_Peak_Binding[,m]>0),m]=var(B_prior[which(Candidate_TF_Peak_Binding[,m]>0),m])#variance of binding events weights of TF t
+  }
+  
+  
+  # Peak-Gene looping prior
+  L_prior=as.matrix(Candidate_Peak_Gene_looping)
+  L_prob=as.matrix(Candidate_Peak_Gene_looping)
+  for (l in 1:length(Candidate_Peak_Gene_looping@x)){
+    mdl=summary(lm(Candidate_Gene_log2Count[Candidate_Peak_Gene_looping@j[l]+1,]~Candidate_Peak_log2Count[Candidate_Peak_Gene_looping@i[l]+1,]))
+    L_prior[Candidate_Peak_Gene_looping@i[l]+1, Candidate_Peak_Gene_looping@j[l]+1] = mdl$coefficients[2,1]
+    L_prob[Candidate_Peak_Gene_looping@i[l]+1, Candidate_Peak_Gene_looping@j[l]+1] = mdl$coefficients[2,4]
+  }
+  L_mean=L_prior
+  L_var=var(L_prior[which(L_prob>0)])
+  
+  
+  Initial_model=list('T_prior'=T_prior, 
+                     'T_mean'=T_mean, 
+                     'T_var'=T_var, 
+                     'B_prior'=B_prior, 
+                     'B_mean'=B_mean, 
+                     'B_var'=B_var, 
+                     'B_prob'=B_prob, 
+                     'L_prior'=L_prior, 
+                     'L_mean'=L_mean, 
+                     'L_var'=L_var, 
+                     'L_prob'=L_prob)
+  return(Initial_model)
+}
+
+
+
+
+#*************************** MAGICAL estimation ***************************
+MAGICAL_estimation <- function(loaded_data, Candidate_circuits, Initial_model){
+  
+  print('MAGICAL integration starts ...')
+  
+  Common_samples=loaded_data$Common_samples
+  
+  
+  Peak_index=match(Candidate_circuits$Peaks$Peak_index, loaded_data$scATAC_Peaks$Peak_index)
+  A=loaded_data$scATAC_read_count_matrix[Peak_index,]
+  ATAC_Cell_Sample_vector=matrix(0, nrow=1, ncol=nrow(loaded_data$scATAC_cells))
+  for (s in 1:S){
+    ATAC_Cell_Sample_vector[1,which(loaded_data$scATAC_cells$subject_ID==Common_samples[s])]=s
+  }
+  A_sample=Candidate_circuits$Peak_log2Count
+ 
+   
+  Gene_index=match(Candidate_circuits$Genes$Gene_symbols, loaded_data$scRNA_Genes$Gene_symbols)
+  R=loaded_data$scRNA_read_count_matrix[Gene_index,]
+  RNA_Cell_Sample_vector=matrix(0, nrow=1, ncol=nrow(loaded_data$scRNA_cells))
+  for (s in 1:S){
+    RNA_Cell_Sample_vector[1,which(loaded_data$scRNA_cells$subject_ID==Common_samples[s])]=s
+  }
+  R_sample=Candidate_circuits$Gene_log2Count
+  
+  
+  B_prior=Initial_model$B_prior 
+  B_prior_mean=Initial_model$B_mean 
+  B_prior_var=Initial_model$B_var 
+  B_prob=Initial_model$B_prob
+  B_state=as.matrix(Candidate_circuits$TF_Peak_Binding) 
+  B=B_prior
+  
+  
+  L_prior=Initial_model$L_prior
+  L_prior_mean=Initial_model$L_mean
+  L_prior_var=Initial_model$L_var 
+  L_prob=Initial_model$L_prob
+  L_state=as.matrix(Candidate_circuits$Peak_Gene_looping) 
+  L=L_prior
+ 
+   
+  T_prior_mean=Initial_model$T_mean 
+  T_prior_var=Initial_model$T_var
+  
+  
+  T_A=matrix(0, nrow=nrow(Candidate_circuits$TFs), ncol=nrow(loaded_data$scATAC_cells))
+  for (s in 1:S){
+    for (m in 1:M){
+      TFA$T_A[m,which(ATAC_Cell_Sample_vector==s)]=rnorm(length(which(ATAC_Cell_Sample_vector==s)), mean=T_prior_mean[m,s], sd=sqrt(T_prior_var[m,s]))
+    }
+  }
+  
+  
+  T_R=matrix(0, nrow=nrow(Candidate_circuits$TFs), ncol=nrow(loaded_data$scRNA_cells))
+  for (s in 1:S){
+    for (m in 1:M){
+      TFA$T_R[m,which(RNA_Cell_Sample_vector==s)]=rnorm(length(which(RNA_Cell_Sample_vector==s)), mean=T_prior_mean[m,s], sd=sqrt(T_prior_var[m,s]))
+    }
+  }
+  
+  
+  TFA=list('T_A'=T_A,
+           'T_R'=T_R,
+           'T_sample'=T_prior_mean)
+
+  S=length(Common_samples) 
+  P=nrow(Candidate_circuits$Peaks) 
+  G=nrow(Candidate_circuits$Genes)
+
+
+  alpha_A=1
+  beta_A=1
+  ATAC_fitting_residue=A_sample-B%*%T_mean
+  sigma_A_noise=1/rgamma(1, shape=alpha_A+1/2, scale=1/((beta_A+sum(ATAC_fitting_residue^2))/(2*P*S)))
+  
+
+  alpha_R=1
+  beta_R=1
+  RNA_fitting_residue=R_sample-t(L)%*%(B%*%T_mean)
+  sigma_R_noise=1/rgamma(1, shape=alpha_R+1/2, scale=1/((beta_R+sum(RNA_fitting_residue^2))/(2*G*S)))
+  
+  
+  iteration_num=10000
+  iteration_seg=round(iteration_num/10)
+  B_state_frq=B_state
+  L_state_frq=L_state
+  
+  
+  for (i in 1:iteration_num){
+    #Step 1: TF activity sampling
+    TFA <- TF_activity_T_sampling(A, A_sample, ATAC_Cell_Sample_vector, R, R_sample, RNA_Cell_Sample_vector, T_A, T_prior_mean, T_prior_var, B, sigma_A_noise)
+    
+    #Step 2: TF-peak binding weight sampling
+    B = TF_peak_binding_B_sampling(A, A_sample, ATAC_Cell_Sample_vector, TFA$T_A, B, B_state, B_prior_mean, B_prior_var, sigma_A_noise)
+    
+    #Step 3: TF-peak binding state update
+    B_state = TF_peak_binary_binding_B_state_sampling(A, A_sample, B, TFA, B_state, B_prior_mean, B_prior_var, B_prob, sigma_A_noise)
+    B_state_frq=B_state_frq+B_state
+    
+    #Step 4: Peak-Gene looping weight sampling
+    L = Peak_gene_looping_L_samping(R, R_sample, L, B, TFA, L_state, L_prior_mean, L_prior_var, sigma_R_noise)
+    
+    #Step 5: Peak-Gene looping state update
+    L_state = Peak_gene_binary_looping_L_state_samping(R, L, A_estimate, L_state, L_mean, L_var, L_prob, sigma_R_noise)
+    L_state_frq=L_state_frq+L_state
+    
+    #Step 6: fitting residue variance control
+    ATAC_fitting_residue=A_sample-B%*%T_mean
+    sigma_A_noise = 1/rgamma(1, shape=alpha_A+1/2, scale=1/((beta_A+sum(ATAC_fitting_residue^2))/(2*P*S)))
+    
+    RNA_fitting_residue=R_sample-t(L)%*%(B%*%T_mean)
+    sigma_R_noise = 1/rgamma(1, shape=alpha_R+1/2, scale=1/((beta_R+sum(RNA_fitting_residue^2))/(2*G*S)))
+
+    if (i%%iteration_seg==0){
+      print(paste('MAGICAL finished', 10*i/iteration_seg,  'percent', sep=' '))
+    }
+    
+  }
+  
+  #Sample Summary
+  Candidate_TF_Peak_Binding_prob = B_state_frq/iteration_num
+  Candidate_Peak_Gene_Looping_prob = L_state_frq/iteration_num
+  
+  Circuits_linkage_posterior<-lost(Candidate_TF_Peak_Binding_prob,
+                                   Candidate_Peak_Gene_Looping_prob)
+  
+  return(Circuits_linkage_posterior)
+}
+
+
+TF_activity_T_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, R, R_sample, RNA_Cell_Sample_vector, T_A, T_prior_mean, T_prior_var, B, sigma_A_noise){
+  M=nrow(TFA$T_mean)
+  S=ncol(A_sample)
+  P=nrow(A)
+  TF_index=sample(M)
+  
+  for (i in 1:M){
+    #during the looping, TFA is iteratively updated for all M TFs and the update order is random in each round of sampling
+    m=TF_index[i]
+    
+    temp_var=(sum(B[,m]^2)*T_prior_var[m,]/P+sigma_A_noise)
+    mean_T=(t(B[,m])%*%(A_sample-B%*%TFA$T_mean+B[,m]%*%t(TFA$T_mean[m,]))/P+T_prior_mean[m,]*sigma_A_noise)/temp_var
+    variance_T=T_prior_var[m,]*sigma_A_noise/temp_var
+    
+    for (s in 1:S){
+      ATAC_cell_index=which(ATAC_Cell_Sample_vector==s)
+      TFA$T_A[m,ATAC_cell_index]=rnorm(length(ATAC_cell_index), mean=mean_T[s], sd=sqrt(variance_T[s]))
+      
+      RNA_cell_index=which(RNA_Cell_Sample_vector==s)
+      TFA$T_R[m,RNA_cell_index]=rnorm(length(RNA_cell_index), mean=mean_T[s], sd=sqrt(variance_T[s]))
+      
+      TFA$T_sample[m,s]=rnorm(1, mean = mean_T[s], sd=sqrt(variance_T[s]))
+    }
+  }
+  return(TFA)
+}
+
+
+
+
+TF_peak_binding_B_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, TFA, B, B_state, B_prior_mean, B_prior_var, sigma_A_noise){
+  
+  M=ncol(B)
+  S=ncol(A)
+  P=nrow(A)
+  TF_index=sample(M)
+  
+  for (i in 1:M){
+    m=TF_index(i);
+    temp_var=sum(TFA$T_sample[m,]^2)*B_prior_var[m]/S+sigma_A_noise
+    mean_B=((A_sample-B%*%T_mean+B[,m]%*%TFA$T_sample[m,])%*%t(TFA$T_sample[m,])*B_prior_var[m]/S+B_prior_mean[,m]*sigma_A_noise)/temp_var
+    vairance_B=B_prior_var[m]*sigma_A_noise/temp_var
+    B[,m]=(rnorm(P, mean=0, sd=sqrt(vairance_B))+mean_B)*B_state[,m]#conditional on B_state(:,t)
+  }
+  
+  return(B)
+}
+
+
+#unfinished functions
+TF_peak_binary_binding_B_state_sampling <-function(){
+}
+
+
+Peak_gene_looping_L_samping <- function(){
+}
+
+
+Peak_gene_binary_looping_L_state_samping <- function(){
+}
