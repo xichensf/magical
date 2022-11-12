@@ -34,12 +34,10 @@ distance_control=5e5
 Ref_seq_file_path = '~/Desktop/MAGICAL demo/Demo input files/hg38_Refseq.txt'
 
 #Output file 
-Output_file_path = 'MAGICAL_selected_regulatory_circuits.txt'
+Output_file_path = 'MAGICAL_selected_regulatory_circuits'
 prob_threshold_TF_peak_binding=0.8
 prob_threshold_peak_gene_looping=0.8
 
-
-#**************************load all data into the R environment**********
 
 loaded_data <- Data_loading(Candidate_gene_file_path, Candidate_peak_file_path,
                             scRNA_readcount_file_path, scRNA_gene_file_path, scRNA_cellmeta_file_path,
@@ -47,8 +45,10 @@ loaded_data <- Data_loading(Candidate_gene_file_path, Candidate_peak_file_path,
                             Motif_mapping_file_path, Motif_name_file_path, TAD_flag, TAD_file_path, Ref_seq_file_path,
                             Output_file_path, prob_threshold_TF_peak_binding, prob_threshold_peak_gene_looping)
 
- 
-#********************** candidate circuits construction ****************
+
+#****************************MAGICAL analysis*******************************
+
+#Candidate circuits construction
 
 if (TAD_flag==1){
   Candidate_circuits <- Candidate_circuits_construction_with_TAD(loaded_data)
@@ -56,18 +56,18 @@ if (TAD_flag==1){
   Candidate_circuits <- Candidate_circuits_construction_without_TAD(loaded_data, distance_control)
 }
 
+#Model initialization
 
-#************************* MAGICAL initialization *********************
-  
 Initial_model<-MAGICAL_initialization(loaded_data, Candidate_circuits)
 
+#Model parameter estimation
 
-#************************* MAGICAL sampling ***************************
-  
 Circuits_linkage_posterior<-MAGICAL_estimation(loaded_data, Candidate_circuits, Initial_model)
 
+#Model output
 
-#************************* MAGICAL output *****************************
-#*
-#*
-#*
+save(Candidate_circuits, Circuits_linkage_posterior, file = paste(Output_file_path, "RData", sep='.'))
+
+
+
+
