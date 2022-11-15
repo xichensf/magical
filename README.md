@@ -14,7 +14,7 @@ We provide download links for datasets generated in the paper "***Mapping diseas
 
 # MAGICAL analysis
 
-MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRNA-seq and scATAC-seq datasets from different conditions. It features a hierarchical Bayesian framework that improves model robustness by leveraging prior transcription factor motif and chromatin domain information. MAGICAL explicitly models signal and data noise in both chromatin accessibility and gene expression measures, which improves the accuracy of regulatory circuits comprising chromatin sites, transcription factors, and target genes that are identified. Both [R](https://github.com/xichensf/magical/tree/main/R) and [MATLAB](https://github.com/xichensf/magical/tree/main/MATLAB) scripts are provided for the use of MAGICAL.
+MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRNA-seq and scATAC-seq datasets from different conditions to map regulatory circuits comprising chromatin sites, transcription factors, and target genes. Both [R](https://github.com/xichensf/magical/tree/main/R) and [MATLAB](https://github.com/xichensf/magical/tree/main/MATLAB) scripts are provided for the use of MAGICAL.
 
 ![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
 
