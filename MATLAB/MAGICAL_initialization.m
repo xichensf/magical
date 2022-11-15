@@ -38,13 +38,14 @@ for i=1:length(xx)
     mdl = fitlm(Candidate_Peak_log2Count(xx(i),:)', Candidate_Gene_log2Count(yy(i),:)');
     ATAC_RNA_weight_1 = table2array(mdl.Coefficients(2,1));
     ATAC_RNA_probability_1 = 1-table2array(mdl.Coefficients(2,4));
-    
-    [B,STATS] = robustfit(Candidate_Peak_log2Count(xx(i),:)', Candidate_Gene_log2Count(yy(i),:)');
-    ATAC_RNA_weight_2 = B(2);
-    ATAC_RNA_probability_2 = 1-STATS.p(2);
-    
-    L_prior(xx(i),yy(i))=mean([ATAC_RNA_weight_1, ATAC_RNA_weight_2]);
-    L_prob(xx(i),yy(i))=max(ATAC_RNA_probability_1, ATAC_RNA_probability_2);
+    L_prior(xx(i),yy(i))=ATAC_RNA_weight_1;
+    L_prob(xx(i),yy(i))=ATAC_RNA_probability_1;
+   
+%     [B,STATS] = robustfit(Candidate_Peak_log2Count(xx(i),:)', Candidate_Gene_log2Count(yy(i),:)');
+%     ATAC_RNA_weight_2 = B(2);
+%     ATAC_RNA_probability_2 = 1-STATS.p(2);
+%     L_prior(xx(i),yy(i))=mean([ATAC_RNA_weight_1, ATAC_RNA_weight_2]);
+%     L_prob(xx(i),yy(i))=max(ATAC_RNA_probability_1, ATAC_RNA_probability_2);
 end
 L_mean=L_prior;
 L_var=var(L_prior(L_prior~=0));

@@ -1,8 +1,7 @@
 function [Candidate_TF_Peak_Binding_prob, Candidate_Peak_Gene_Looping_prob]=...
-    MAGICAL_estimation(A, R, B_state, L_state, T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob, S, P, G)
+    MAGICAL_estimation(A, R, B_state, L_state, T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob, S, P, G, iteration_num)
 
 
-iteration_num=10000;
 iteration_seg=iteration_num/10;
 
 

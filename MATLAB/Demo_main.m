@@ -28,8 +28,8 @@ Motif_name_file_path = 'Demo input files/Motifs.txt';
 
 
 % TAD prior
-TAD_flag=0;%if no TAD provided, simply set the path as empty and set the flag to 0
-TAD_file_path = '';
+TAD_flag=1;%if no TAD provided, simply set the path as empty and set the flag to 0
+TAD_file_path = 'Demo input files/RaoGM12878_40kb_TopDomTADs_filtered_hg38.txt';
 
 
 % Refseq file for transcription starting site extraction
@@ -41,6 +41,7 @@ Output_file_path = 'MAGICAL_selected_regulatory_circuits.txt';
 prob_threshold_TF_peak_binding=0.8;
 prob_threshold_peak_gene_looping=0.8;
     
+iteration_num=10000;
 
 MAGICAL(Candidate_gene_file_path, Candidate_peak_file_path,...
     scRNA_readcount_file_path, scRNA_gene_file_path, scRNA_cellmeta_file_path,...
@@ -48,5 +49,5 @@ MAGICAL(Candidate_gene_file_path, Candidate_peak_file_path,...
     Motif_mapping_file_path, Motif_name_file_path, ...
     TAD_flag, TAD_file_path, ...
     Ref_seq_file_path, ...
-    Output_file_path, prob_threshold_TF_peak_binding, prob_threshold_peak_gene_looping);
+    Output_file_path, prob_threshold_TF_peak_binding, prob_threshold_peak_gene_looping, iteration_num);
     

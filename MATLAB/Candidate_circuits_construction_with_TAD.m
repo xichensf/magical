@@ -211,5 +211,5 @@ Candidate_peaks.point1=Candidate_peaks.point1(peak_index);
 Candidate_peaks.point2=Candidate_peaks.point2(peak_index);
 Candidate_Peak_log2Count=Candidate_Peak_log2Count(peak_index,:);
 
-fprintf('MAGICAL initially select %d TFs, %d peaks and %d genes for circuit inference\n\n', length(Candidate_TFs), length(Candidate_peaks.peak_index), length(Candidate_genes.gene_symbols))
+%fprintf('MAGICAL initially select %d TFs, %d peaks and %d genes for circuit inference\n\n', length(Candidate_TFs), length(Candidate_peaks.peak_index), length(Candidate_genes.gene_symbols))
 
