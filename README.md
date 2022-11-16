@@ -124,8 +124,9 @@ MAGICAL finished 100 percent
 ```
 ## MAGICAL output
 Finally, optimized circuits fitting the variation in both modalities are selected. Circuit genes, assocaited chromatin sites and the regulatory TFs will be written to [MAGICAL_selected_regulatory_circuits.txt](https://github.com/xichensf/magical/blob/main/MAGICAL_selected_regulatory_circuits.txt). MAGICAL uses default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) for circuit selection. Users can adjust these thresholds in the provided scripts to allow more or fewer outputs. Note, running MAGICAL on our demo files may return very similar but slighly different results to the example output file we provided due the nature of Bayesian algorithsm.
-
-
+```
+MAGICAL selected regulatory circuits with 91 TFs, 287 peaks and 232 genes.
+```
 ## Contact
 Questions about scATAC-seq data processing and MAGICAL can be emailed to Xi Chen (<xchen@flatironinstitute.org>).
 Questions about scRNA-seq data processing can be emailed to Yuan Wang (<yuanwang@cs.princeton.edu>).
