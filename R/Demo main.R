@@ -62,17 +62,18 @@ Initial_model<-MAGICAL_initialization(loaded_data, Candidate_circuits)
 
 
 #Model parameter estimation
-Circuits_linkage_posterior<-MAGICAL_estimation(loaded_data, Candidate_circuits, Initial_model, iteration_num = 10000)
+source('~/Desktop/MAGICAL demo/R/MAGICAL_functions.R')
+
+Circuits_linkage_posterior<-MAGICAL_estimation(loaded_data, Candidate_circuits, Initial_model, iteration_num = 1000)
 
 
 
 #****************************MAGICAL output******************************* 
 #source('~/Desktop/MAGICAL demo/R/MAGICAL_functions.R')
+source('~/Desktop/MAGICAL demo/R/MAGICAL_functions.R')
 
 MAGICAL_circuits_output(Output_file_path = 'MAGICAL_selected_regulatory_circuits.txt', 
-                        Candidate_circuits, Circuits_linkage_posterior,
-                        prob_threshold_TF_peak_binding=0.8, 
-                        prob_threshold_peak_gene_looping=0.95)
+                        Candidate_circuits, Circuits_linkage_posterior)
 
 save(Candidate_circuits, Circuits_linkage_posterior, file = "MAGICAL_results.RData")
 
