@@ -2,7 +2,7 @@ function MAGICAL(Candidate_gene_file_path, Candidate_peak_file_path,...
                 scRNA_readcount_file_path, scRNA_gene_file_path, scRNA_cellmeta_file_path,...
                 scATAC_readcount_file_path, scATAC_peak_file_path, scATAC_cellmeta_file_path,...
                 Motif_mapping_file_path, Motif_name_file_path, TAD_flag, TAD_file_path, Ref_seq_file_path, ...
-                Output_file_path, prob_threshold_TF_peak_binding, prob_threshold_peak_gene_looping, iteration_num)
+                Output_file_path, iteration_num)
 
 
 fprintf('loading all input data ...\n\n')
@@ -174,6 +174,8 @@ L_state=full(Candidate_Peak_Gene_looping);
 
 
 %************************* MAGICAL output ******************************
+prob_threshold_TF_peak_binding=0.8;
+prob_threshold_peak_gene_looping=0.8;
 
 
 fid=fopen(Output_file_path, 'w');

@@ -17,8 +17,8 @@ for g=1:G
             mean_L=((R(g,:)-temp+L(f,g)*A_estimate(f,:))*A_estimate(f,:)'*L_var/S+L_mean(f,g)*sigma_R_noise)/temp_var;
             vairance_L=L_var*sigma_R_noise/temp_var;
             
-            post_l1 = exp(-(L(f,g)*1-mean_L)^2/(2*vairance_L))*(L_prob(f,g)+0.1);
-            post_l0 = exp(-(L(f,g)*0-mean_L)^2/(2*vairance_L))*(1-L_prob(f,g)+0.1);
+            post_l1 = exp(-(L(f,g)*1-mean_L)^2/(2*vairance_L))*(L_prob(f,g)+0.1)+1e-6;
+            post_l0 = exp(-(L(f,g)*0-mean_L)^2/(2*vairance_L))*(1-L_prob(f,g)+0.1)+1e-6;
             
             P1=post_l1/(post_l1+post_l0);
             threshold_l=rand;
@@ -39,10 +39,20 @@ for g=1:G
             mean_L=((R(g,:)-temp)*A_estimate(f,:)'*L_var/S+L_mean(f,g)*sigma_R_noise)/temp_var;
             vairance_L=L_var*sigma_R_noise/temp_var;
             
-            L_temp=randn*sqrt(vairance_L)+mean_L;%propose a new weight
+            ll=randn;
             
-            post_l1 = exp(-(L_temp*1-mean_L)^2/(2*vairance_L))*(L_prob(f,g)+0.1);
-            post_l0 = exp(-(L_temp*0-mean_L)^2/(2*vairance_L))*(1-L_prob(f,g)+0.1);
+            if ll>3
+                ll=3;
+            end
+            
+            if ll<-3
+                ll=-3;
+            end
+            
+            L_temp=ll*sqrt(vairance_L)+mean_L;%propose a new weight
+            
+            post_l1 = exp(-(L_temp*1-mean_L)^2/(2*vairance_L))*(L_prob(f,g)+0.1)+1e-6;
+            post_l0 = exp(-(L_temp*0-mean_L)^2/(2*vairance_L))*(1-L_prob(f,g)+0.1)+1e-6;
             
             P1=post_l1/(post_l1+post_l0);
             threshold_l=rand;

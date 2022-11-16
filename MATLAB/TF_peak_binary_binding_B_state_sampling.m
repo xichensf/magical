@@ -16,8 +16,8 @@ for f=1:F
             mean_B=((A(f,:)-temp+B(f,m)*T(m,:))*T(m,:)'*B_var(m)/S+B_mean(f,m)*sigma_A_noise)/temp_var;
             vairance_B=B_var(m)*sigma_A_noise/temp_var;
             
-            post_b1 = exp(-(B(f,m)*1-mean_B)^2/(2*vairance_B))*(B_prob(f,m)+0.25);
-            post_b0 = exp(-(B(f,m)*0-mean_B)^2/(2*vairance_B))*(1-B_prob(f,m)+0.25);
+            post_b1 = exp(-(B(f,m)*1-mean_B)^2/(2*vairance_B))*(B_prob(f,m)+0.25)+1e-6;
+            post_b0 = exp(-(B(f,m)*0-mean_B)^2/(2*vairance_B))*(1-B_prob(f,m)+0.25)+1e-6;
             
             P1=post_b1/(post_b1+post_b0);
             threshold_c=rand;
@@ -36,11 +36,20 @@ for f=1:F
             
             mean_B=((A(f,:)-temp)*T(m,:)'*B_var(m)/S+B_mean(f,m)*sigma_A_noise)/temp_var;
             vairance_B=B_var(m)*sigma_A_noise/temp_var;
+            bb=randn;
             
-            B_temp=randn*sqrt(vairance_B)+mean_B;
+            if bb>3
+                bb=3;
+            end
             
-            post_b1 = exp(-(B_temp*1-mean_B)^2/(2*vairance_B))*(B_prob(f,m)+0.25);
-            post_b0 = exp(-(B_temp*0-mean_B)^2/(2*vairance_B))*(1-B_prob(f,m)+0.25);
+            if bb<-3
+                bb=-3;
+            end
+            
+            B_temp=bb*sqrt(vairance_B)+mean_B;
+            
+            post_b1 = exp(-(B_temp*1-mean_B)^2/(2*vairance_B))*(B_prob(f,m)+0.25)+1e-6;
+            post_b0 = exp(-(B_temp*0-mean_B)^2/(2*vairance_B))*(1-B_prob(f,m)+0.25)+1e-6;
             
             P1=post_b1/(post_b1+post_b0);
             threshold_c=rand;
