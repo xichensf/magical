@@ -96,14 +96,11 @@ There are paired data for 12 samples/subecjts. (check sample IDs if this number 
 #### **Build candidate circuits**  
 To identify candidate disease-modulated triads, candidate chromatin sites are associated with TFs by motif sequence matching. These sites are then linked to the candidate genes by requiring them to be within the same TAD or within a user controlled distance. 
 ```
-Candidate regulatory circuits construction ...
-
-93 TFs, 505 peaks and 398 genes are selected for circuit inference.
+MAGICAL model initialization ...
 ```
 #### **Infer circuit linkages** 
 MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and conditions and estimate the strength of the circuit TF-peak-gene linkages. The TF-peak binding confidence and the hidden TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the input gene expression data are used to infer the peak-gene looping. The updated states of TF-peak-gene linkages based on the estimated strength are used to initialize the next round of estimations. 
 ```
-MAGICAL model initialization ...
 
 MAGICAL finished 10 percent
 
@@ -127,10 +124,6 @@ MAGICAL finished 100 percent
 ```
 ## MAGICAL output
 Finally, optimized circuits fitting the variation in both modalities are selected. Circuit genes, assocaited chromatin sites and the regulatory TFs will be written to [MAGICAL_selected_regulatory_circuits.txt](https://github.com/xichensf/magical/blob/main/MAGICAL_selected_regulatory_circuits.txt). MAGICAL uses default thresholds (posterior probabilities on TF-peak binding and peak-gene looping) for circuit selection. Users can adjust these thresholds in the provided scripts to allow more or fewer outputs.  
-
-```
-MAGICAL selected regulatory circuits with 93 TFs, 407 peaks and 326 genes.
-```
 
 
 ## Contact
