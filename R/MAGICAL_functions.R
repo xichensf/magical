@@ -564,12 +564,6 @@ TF_activity_T_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, R, R_sa
       variance_T=T_prior_var[m,]*sigma_A_noise/temp_var
       
       for (s in 1:S){
-        ATAC_cell_index=which(ATAC_Cell_Sample_vector==s)
-        TFA$T_A[m,ATAC_cell_index]=rnorm(length(ATAC_cell_index))*sqrt(variance_T[s])+mean_T[s]
-        
-        RNA_cell_index=which(RNA_Cell_Sample_vector==s)
-        TFA$T_R[m,RNA_cell_index]=rnorm(length(RNA_cell_index))*sqrt(variance_T[s])+mean_T[s]
-        
         aa=rnorm(1)
         if (aa-3>0){
           aa=3
@@ -579,6 +573,12 @@ TF_activity_T_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, R, R_sa
         }
         
         TFA$T_sample[m,s]=aa*sqrt(variance_T[s])+mean_T[s]
+        
+        ATAC_cell_index=which(ATAC_Cell_Sample_vector==s)
+        TFA$T_A[m,ATAC_cell_index]=rnorm(length(ATAC_cell_index))*sqrt(variance_T[s])+TFA$T_sample[m,s]
+        
+        RNA_cell_index=which(RNA_Cell_Sample_vector==s)
+        TFA$T_R[m,RNA_cell_index]=rnorm(length(RNA_cell_index))*sqrt(variance_T[s])+TFA$T_sample[m,s]
       }
     }
   }
@@ -656,7 +656,13 @@ Peak_gene_looping_L_samping <- function(R, R_sample, RNA_Cell_Sample_vector, TFA
 #*************************** TF-peak binding state update ***************************
 TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample_vector, TFA,
                                                    B, B_state, B_prior_mean, B_prior_var, B_prior_prob, sigma_A_noise, P, G, M, S){
-
+  T_sample=matrix(0, nrow=M, ncol=S)
+  for (m in 1:M){
+    for (s in 1:S){
+      T_sample[m,s]=mean(TFA$T_R[m, which(ATAC_Cell_Sample_vector==s)])
+    }
+  }
+  
   TF_index=sample(M)
   Peak_index=sample(P)
   
@@ -757,6 +763,7 @@ Peak_gene_binary_looping_L_state_samping <- function(R, R_sample, RNA_Cell_Sampl
       T_sample[m,s]=mean(TFA$T_R[m,which(RNA_Cell_Sample_vector==s)])
     }
   }
+  
   A_estimate=B%*%TFA$T_sample
   
   
