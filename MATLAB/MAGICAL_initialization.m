@@ -1,13 +1,20 @@
-function [T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob]=MAGICAL_initialization(Candidate_TF_log2Count,...
-        Candidate_Peak_log2Count, Candidate_Gene_log2Count, Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping, M)
+function [T_A_prior, T_R_prior, T_sample_mean, T_sample_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob]=MAGICAL_initialization(Candidate_TF_log2Count,...
+        Candidate_Peak_log2Count, Candidate_Gene_log2Count, Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping, M, S, ATAC_cell_vector, RNA_cell_vector)
 
 % TF activity prior: TF RNA expression
 
-T_prior=Candidate_TF_log2Count;%mean per TF activity per sample
-T_mean=T_prior;
-T_var=ones(M, 1);
+T_sample_mean=Candidate_TF_log2Count;
+T_sample_var=var(Candidate_TF_log2Count,0,2);
+
+T_A_prior=zeros(M, length(ATAC_cell_vector));
+T_R_prior=zeros(M, length(RNA_cell_vector));
 for m=1:M
-    T_var(m)=var(Candidate_TF_log2Count(m,:));%variance of protein activity of TF t
+    for s=1:S
+        A_index=find(ATAC_cell_vector==s);
+        T_A_prior(m,A_index)=randn(1,length(A_index))*sqrt(T_sample_var(m))+T_sample_mean(m,s);
+        R_index=find(RNA_cell_vector==s);
+        T_R_prior(m,R_index)=randn(1,length(R_index))*sqrt(T_sample_var(m))+T_sample_mean(m,s);
+    end
 end
 
 
@@ -40,12 +47,6 @@ for i=1:length(xx)
     ATAC_RNA_probability_1 = 1-table2array(mdl.Coefficients(2,4));
     L_prior(xx(i),yy(i))=ATAC_RNA_weight_1;
     L_prob(xx(i),yy(i))=ATAC_RNA_probability_1;
-   
-%     [B,STATS] = robustfit(Candidate_Peak_log2Count(xx(i),:)', Candidate_Gene_log2Count(yy(i),:)');
-%     ATAC_RNA_weight_2 = B(2);
-%     ATAC_RNA_probability_2 = 1-STATS.p(2);
-%     L_prior(xx(i),yy(i))=mean([ATAC_RNA_weight_1, ATAC_RNA_weight_2]);
-%     L_prob(xx(i),yy(i))=max(ATAC_RNA_probability_1, ATAC_RNA_probability_2);
 end
 L_mean=L_prior;
 L_var=var(L_prior(L_prior~=0));

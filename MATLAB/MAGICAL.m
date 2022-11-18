@@ -5,6 +5,8 @@ function MAGICAL(Candidate_gene_file_path, Candidate_peak_file_path,...
                 Output_file_path, iteration_num)
 
 
+
+
 fprintf('loading all input data ...\n\n')
 
 %load candidate genes
@@ -119,12 +121,14 @@ fprintf('%d motifs, %d candidate chromatin sites and %d candidate genes are prov
 
 %********************** candidate circuits construction ****************
 
+fprintf('MAGICAL model initialization ...\n\n')
 
 if TAD_flag==1
 [Candidate_TFs, Candidate_TF_log2Count,...
     Candidate_peaks, Candidate_Peak_log2Count,...
     Candidate_genes, Candidate_Gene_log2Count,...
-    Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping]=...
+    Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping,...
+    ATAC_cell_vector, scATAC_read_count_matrix, RNA_cell_vector, scRNA_read_count_matrix]=...
     Candidate_circuits_construction_with_TAD(Common_samples, Candidate_genes, Candidate_peaks,...
                                   scRNA_genes, scRNA_cells, scRNA_read_count_matrix, ...
                                   scATAC_peaks, scATAC_cells, scATAC_read_count_matrix,...
@@ -134,7 +138,8 @@ else
 [Candidate_TFs, Candidate_TF_log2Count,...
     Candidate_peaks, Candidate_Peak_log2Count,...
     Candidate_genes, Candidate_Gene_log2Count,...
-    Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping]=...
+    Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping,...
+    ATAC_cell_vector, scATAC_read_count_matrix, RNA_cell_vector, scRNA_read_count_matrix]=...
     Candidate_circuits_construction_without_TAD(Common_samples, Candidate_genes, Candidate_peaks,...
                                   scRNA_genes, scRNA_cells, scRNA_read_count_matrix, ...
                                   scATAC_peaks, scATAC_cells, scATAC_read_count_matrix,...
@@ -146,16 +151,14 @@ end
 %********************** Model initialization ****************************
 
 
-fprintf('MAGICAL model initialization ...\n\n')
-
 S=length(Common_samples);
 M=length(Candidate_TFs);
 P=length(Candidate_peaks.peak_index);
 G=length(Candidate_genes.gene_symbols);
 
 
-[T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob]=...
-    MAGICAL_initialization(Candidate_TF_log2Count, Candidate_Peak_log2Count, Candidate_Gene_log2Count, Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping, M);
+[T_A_initial, T_R_initial, T_sample_mean, T_sample_var, B_initial, B_prior_mean, B_prior_var, B_prob, L_initial, L_prior_mean, L_prior_var, L_prob]=...
+    MAGICAL_initialization(Candidate_TF_log2Count, Candidate_Peak_log2Count, Candidate_Gene_log2Count, Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping, M, S, ATAC_cell_vector, RNA_cell_vector);
 
 
 %************************* MAGICAL sampling ****************************
@@ -163,14 +166,9 @@ G=length(Candidate_genes.gene_symbols);
 
 fprintf('MAGICAL work starts ...\n\n');
 
-A=Candidate_Peak_log2Count;
-R=Candidate_Gene_log2Count;
-B_state=full(Candidate_TF_Peak_Binding);
-L_state=full(Candidate_Peak_Gene_looping);
-
 [Candidate_TF_Peak_Binding_prob, Candidate_Peak_Gene_Looping_prob]=...
-    MAGICAL_estimation(A, R, B_state, L_state, T_prior, T_mean, T_var, B_prior, B_mean, B_var, B_prob, L_prior, L_mean, L_var, L_prob, S, P, G, iteration_num);
-
+    MAGICAL_estimation(scATAC_read_count_matrix, ATAC_cell_vector, Candidate_Peak_log2Count, scRNA_read_count_matrix, RNA_cell_vector, Candidate_Gene_log2Count, Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping,...
+    T_A_initial, T_R_initial, T_sample_mean, T_sample_var,B_initial, B_prior_mean, B_prior_var, B_prob, L_initial, L_prior_mean, L_prior_var, L_prob, M, S, P, G, iteration_num);
 
 
 %************************* MAGICAL output ******************************
@@ -182,13 +180,13 @@ fid=fopen(Output_file_path, 'w');
 fprintf(fid, 'Gene_symbol\tGene_chr\tGene_TSS\tPeak_chr\tPeak_start\tPeak_end\tLooping_prob\tTFs(binding prob)\n');
 
 [xx,yy]=find(Candidate_Peak_Gene_Looping_prob>prob_threshold_peak_gene_looping);
-
+circuit_flag=zeros(length(xx),1);
 TF_vector=zeros(length(Candidate_TFs), 1);
 for i=1:length(xx)
     [TF_prob, TF_index]=sort(full(Candidate_TF_Peak_Binding_prob(xx(i),:)), 'descend');
     index=find(TF_prob>prob_threshold_TF_peak_binding);
     if ~isempty(index)
-        
+        circuit_flag(i)=1;
         fprintf(fid, '%s\tchr%d\t%d\tchr%d\t%d\t%d\t%G\t', ...
             Candidate_genes.gene_symbols{yy(i)}, Candidate_genes.gene_TSS(yy(i),:),...
             Candidate_peaks.chr_num(xx(i)), Candidate_peaks.point1(xx(i)),  Candidate_peaks.point2(xx(i)), full(Candidate_Peak_Gene_Looping_prob(xx(i),yy(i))));
@@ -201,9 +199,6 @@ for i=1:length(xx)
         fprintf(fid, '\n');
     end
 end
-fprintf('MAGICAL selected regulatory circuits with %d TFs, %d peaks and %d genes.\n\n\n\n', length(find(TF_vector>1)), length(unique(xx)), length(unique(yy)))
-
-
-
+fprintf('MAGICAL selected regulatory circuits with %d TFs, %d peaks and %d genes.\n\n\n\n', length(find(TF_vector>1)), length(unique(xx(circuit_flag>0))), length(unique(yy(circuit_flag>0))))
 
 

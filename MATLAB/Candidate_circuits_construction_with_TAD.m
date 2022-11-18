@@ -1,14 +1,14 @@
 function [Candidate_TFs, Candidate_TF_log2Count,...
     Candidate_peaks, Candidate_Peak_log2Count,...
     Candidate_genes, Candidate_Gene_log2Count,...
-    Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping]=...
+    Candidate_TF_Peak_Binding, Candidate_Peak_Gene_looping,...
+    ATAC_cell_vector, scATAC_read_count_matrix, RNA_cell_vector, scRNA_read_count_matrix]=...
     Candidate_circuits_construction_with_TAD(Common_samples, Candidate_genes, Candidate_peaks,...
                                   scRNA_genes, scRNA_cells, scRNA_read_count_matrix, ...
                                   scATAC_peaks, scATAC_cells, scATAC_read_count_matrix,...
                                   Motifs, TF_peak_binding_matrix,...
                                   Refseq, TAD)
 
-fprintf('Candidate regulatory circuits construction ...\n\n')
 
 % TF-peak binding
 [aa, bidex, cidex]=intersect([scATAC_peaks.chr_num, scATAC_peaks.point1, scATAC_peaks.point2], [Candidate_peaks.chr_num, Candidate_peaks.point1, Candidate_peaks.point2], 'rows', 'stable');
@@ -104,10 +104,16 @@ Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding(peak_index, TF_index);
 
 
 %filter the input paired data for candidate peaks and candidate genes
-
+ATAC_cell_vector=zeros(1,length(scATAC_cells.subject_ID));
+RNA_cell_vector=zeros(1,length(scRNA_cells.subject_ID));
 for s=1:length(Common_samples)
-    ATAC_count(:,s)=full(sum(scATAC_read_count_matrix(:,strcmp(scATAC_cells.subject_ID, Common_samples{s})), 2));
-    RNA_count(:,s)=full(sum(scRNA_read_count_matrix(:,strcmp(scRNA_cells.subject_ID, Common_samples{s})), 2));
+    A_index=find(strcmp(scATAC_cells.subject_ID, Common_samples{s})>0);
+    ATAC_cell_vector(A_index)=s;
+    ATAC_count(:,s)=full(sum(scATAC_read_count_matrix(:,A_index), 2));
+        
+    R_index=find(strcmp(scRNA_cells.subject_ID, Common_samples{s})>0);
+    RNA_cell_vector(R_index)=s;
+    RNA_count(:,s)=full(sum(scRNA_read_count_matrix(:,R_index), 2));
 end
 
 
@@ -137,6 +143,7 @@ Candidate_peaks.point2=Candidate_peaks.point2(bidex);
 Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding(bidex,:);
 Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping(bidex,:);
 Candidate_Peak_log2Count=ATAC_log2(cidex,:);
+scATAC_read_count_matrix=scATAC_read_count_matrix(cidex,:);
 
 peak_index=find(sum(Candidate_Peak_log2Count,2)>0);
 Candidate_peaks.peak_index=Candidate_peaks.peak_index(peak_index);
@@ -147,6 +154,7 @@ Candidate_peaks.point2=Candidate_peaks.point2(peak_index);
 Candidate_TF_Peak_Binding=Candidate_TF_Peak_Binding(peak_index,:);
 Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping(peak_index,:);
 Candidate_Peak_log2Count=Candidate_Peak_log2Count(peak_index,:);
+scATAC_read_count_matrix=scATAC_read_count_matrix(peak_index,:);
 
 for p=1:length(Candidate_peaks.peak_index)
     Candidate_Peak_log2Count(p,:)=Candidate_Peak_log2Count(p,:)-mean(Candidate_Peak_log2Count(p,:));
@@ -159,12 +167,14 @@ Candidate_genes.gene_symbols=Candidate_genes.gene_symbols(bidex);
 Candidate_genes.gene_TSS=Candidate_genes.gene_TSS(bidex,:);
 Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping(:,bidex);
 Candidate_Gene_log2Count=RNA_log2(cidex,:);
+scRNA_read_count_matrix=scRNA_read_count_matrix(cidex,:);
 
 gene_index=find(sum(Candidate_Gene_log2Count,2)>0);
 Candidate_genes.gene_symbols=Candidate_genes.gene_symbols(gene_index);
 Candidate_genes.gene_TSS=Candidate_genes.gene_TSS(gene_index,:);
 Candidate_Peak_Gene_looping=Candidate_Peak_Gene_looping(:,gene_index);
 Candidate_Gene_log2Count=Candidate_Gene_log2Count(gene_index,:);
+scRNA_read_count_matrix=scRNA_read_count_matrix(gene_index,:);
 
 for g=1:length(Candidate_genes.gene_symbols)
     Candidate_Gene_log2Count(g,:)=Candidate_Gene_log2Count(g,:)-mean(Candidate_Gene_log2Count(g,:));
@@ -202,7 +212,7 @@ Candidate_TF_log2Count=Candidate_TF_log2Count(TF_index,:);
 Candidate_genes.gene_symbols=Candidate_genes.gene_symbols(gene_index);
 Candidate_genes.gene_TSS=Candidate_genes.gene_TSS(gene_index,:);
 Candidate_Gene_log2Count=Candidate_Gene_log2Count(gene_index,:);
-
+scRNA_read_count_matrix=scRNA_read_count_matrix(gene_index,:);
 
 Candidate_peaks.peak_index=Candidate_peaks.peak_index(peak_index);
 Candidate_peaks.chr=Candidate_peaks.chr(peak_index);
@@ -210,6 +220,8 @@ Candidate_peaks.chr_num=Candidate_peaks.chr_num(peak_index);
 Candidate_peaks.point1=Candidate_peaks.point1(peak_index);
 Candidate_peaks.point2=Candidate_peaks.point2(peak_index);
 Candidate_Peak_log2Count=Candidate_Peak_log2Count(peak_index,:);
+scATAC_read_count_matrix=scATAC_read_count_matrix(peak_index,:);
+
 
 %fprintf('MAGICAL initially select %d TFs, %d peaks and %d genes for circuit inference\n\n', length(Candidate_TFs), length(Candidate_peaks.peak_index), length(Candidate_genes.gene_symbols))
 
