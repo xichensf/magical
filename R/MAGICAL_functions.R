@@ -594,10 +594,8 @@ TF_activity_T_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, R, R_sa
 TF_peak_binding_B_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, TFA, B, B_state, B_prior_mean, B_prior_var, sigma_A_noise, P, G, M, S){
 
   T_sample=matrix(0, nrow=M, ncol=S)
-  for (m in 1:M){
-    for (s in 1:S){
-      T_sample[m,s]=mean(TFA$T_A[m,which(ATAC_Cell_Sample_vector==s)])
-    }
+  for (s in 1:S){
+    T_sample[,s]=rowMeans(TFA$T_A[,which(ATAC_Cell_Sample_vector==s)>0])
   }
   
   TF_index=sample(M)
@@ -626,10 +624,8 @@ TF_peak_binding_B_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, TFA
 Peak_gene_looping_L_samping <- function(R, R_sample, RNA_Cell_Sample_vector, TFA, B, L, L_state, L_prior_mean, L_prior_var, sigma_R_noise, P, G, M, S){
   
   T_sample=matrix(0, nrow=M, ncol=S)
-  for (m in 1:M){
-    for (s in 1:S){
-      T_sample[m,s]=mean(TFA$T_R[m, which(RNA_Cell_Sample_vector==s)])
-    }
+  for (s in 1:S){
+    T_sample[,s]=rowMeans(TFA$T_R[,which(RNA_Cell_Sample_vector==s)>0])
   }
   
   A_estimate=B%*%TFA$T_sample
@@ -657,10 +653,8 @@ Peak_gene_looping_L_samping <- function(R, R_sample, RNA_Cell_Sample_vector, TFA
 TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample_vector, TFA,
                                                    B, B_state, B_prior_mean, B_prior_var, B_prior_prob, sigma_A_noise, P, G, M, S){
   T_sample=matrix(0, nrow=M, ncol=S)
-  for (m in 1:M){
-    for (s in 1:S){
-      T_sample[m,s]=mean(TFA$T_R[m, which(ATAC_Cell_Sample_vector==s)])
-    }
+  for (s in 1:S){
+    T_sample[,s]=rowMeans(TFA$T_A[,which(ATAC_Cell_Sample_vector==s)>0])
   }
   
   TF_index=sample(M)
@@ -758,11 +752,10 @@ Peak_gene_binary_looping_L_state_samping <- function(R, R_sample, RNA_Cell_Sampl
   Gene_index=sample(G)
   
   T_sample=matrix(0, nrow=M, ncol=S)
-  for (m in 1:M){
-    for (s in 1:S){
-      T_sample[m,s]=mean(TFA$T_R[m,which(RNA_Cell_Sample_vector==s)])
-    }
+  for (s in 1:S){
+    T_sample[,s]=rowMeans(TFA$T_R[,which(RNA_Cell_Sample_vector==s)>0])
   }
+
   
   A_estimate=B%*%TFA$T_sample
   
@@ -927,16 +920,14 @@ MAGICAL_estimation <- function(loaded_data, Candidate_circuits, Initial_model, i
   # ATAC fitting residual variance initial values
   alpha_A=1
   beta_A=1
-  ATAC_fitting_residue=A_sample-B%*%TFA$T_sample
-  sigma_A_noise=1/rgamma(1, shape=alpha_A+1/2, rate=(beta_A+sum(ATAC_fitting_residue^2))/(2*P*S))
+  sigma_A_noise=1/rgamma(1, shape=alpha_A+1/2, rate=(beta_A+sum((A_sample-B%*%TFA$T_sample)^2))/(2*P*S))
   
   
   
   # RNA fitting residual variance initial values
   alpha_R=1
   beta_R=1
-  RNA_fitting_residue=R_sample-t(L)%*%(B%*%TFA$T_sample)
-  sigma_R_noise=1/rgamma(1, shape=alpha_R+1/2, scale=1/((beta_R+sum(RNA_fitting_residue^2))/(2*G*S)))
+  sigma_R_noise=1/rgamma(1, shape=alpha_R+1/2, scale=1/((beta_R+sum((R_sample-t(L)%*%(B%*%TFA$T_sample))^2))/(2*G*S)))
   
   
   
@@ -983,11 +974,9 @@ MAGICAL_estimation <- function(loaded_data, Candidate_circuits, Initial_model, i
     
     
     #Step 6: fitting residue variance control
-    ATAC_fitting_residue=A_sample-B%*%TFA$T_sample
-    sigma_A_noise = 1/rgamma(1, shape=alpha_A+1/2, rate=(beta_A+sum(ATAC_fitting_residue^2))/(2*P*S))
+    sigma_A_noise = 1/rgamma(1, shape=alpha_A+1/2, rate=(beta_A+sum((A_sample-B%*%TFA$T_sample)^2))/(2*P*S))
     
-    RNA_fitting_residue=R_sample-t(L)%*%(B%*%TFA$T_sample)
-    sigma_R_noise = 1/rgamma(1, shape=alpha_R+1/2, rate=(beta_R+sum(RNA_fitting_residue^2))/(2*G*S))
+    sigma_R_noise = 1/rgamma(1, shape=alpha_R+1/2, rate=(beta_R+sum((R_sample-t(L)%*%(B%*%TFA$T_sample))^2))/(2*G*S))
     
     Noise_parameters[i,1]=sigma_A_noise
     Noise_parameters[i,2]=sigma_R_noise
