@@ -14,7 +14,7 @@ We provide download links for the newly generated single cell datasets used in t
 
 # MAGICAL analysis
 
-MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRNA-seq and scATAC-seq datasets from different conditions to map regulatory circuits comprising chromatin sites, transcription factors, and target genes. Both [R](https://github.com/xichensf/magical/tree/main/R) and [MATLAB](https://github.com/xichensf/magical/tree/main/MATLAB) scripts are provided for the use of MAGICAL. In our testing, the MATLAB code runns faster. Since the single cell data files are very large and Bayesian learning may take hours to finish, to allow testing the source code, we provide a mock testing case (filtered single cell multiomics data on selected cells, regions and genes) that users can [download the input files](https://drive.google.com/file/d/1CerwMHMnS1PNFNMy00OoHQjn6T30M1j4/view?usp=sharing) and run MAGICAL on their local machine (~15 mins).
+MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRNA-seq and scATAC-seq datasets from different conditions to map regulatory circuits comprising chromatin sites, transcription factors, and target genes. Both [R](https://github.com/xichensf/magical/tree/main/R) and [MATLAB](https://github.com/xichensf/magical/tree/main/MATLAB) scripts are provided for the use of MAGICAL with R v4.0.0 or MATLAB 2020a or later. The source code is not much dependent on existing packages or libraries so users can simply download the input file folder and add to the same path with the source scripts to run MAGICAL anaysis. Since the original single cell data files are over 100GB and also the Bayesian learning process will take hours to finish on a cluster machine, to allow testing the source code, we provide a mock testing case that users can [download the input files](https://drive.google.com/file/d/1CerwMHMnS1PNFNMy00OoHQjn6T30M1j4/view?usp=sharing) and run MAGICAL on their local machine (~15 mins).
 
 ![alt text](https://github.com/xichensf/magical/blob/main/MAGICAL.png)
 
@@ -26,7 +26,7 @@ MAGICAL (Multiome Accessible Gene Integration Calling And Looping) analyzes scRN
 
 ## MAGICAL input
 
-MAGICAL only requires gene symbols, peak coordinates, read count and cell meta information including cell type, sample/subject ID and sample group/condition. These information are very fundamental and can be easily obtained from any single cell multioimc dataset. We provide [Multiomics_input_for_MAGICAL.R](https://github.com/xichensf/magical/blob/main/Multiomics_input_for_MAGICAL.R) to demo how to extra the necessary input files from the single cell multiomics data for use with MAGICAL. The script includes code to extract needed information from Seurat processed scRNA-seq data and ArchR or Signac processed scATAC-seq data. 
+MAGICAL only requires gene symbols, peak coordinates, read count and cell meta information including cell type, sample/subject ID and sample group/condition. These information are very fundamental and can be easily obtained from any single cell multioimc dataset. We provide a script [Multiomics_input_for_MAGICAL.R](https://github.com/xichensf/magical/blob/main/Multiomics_input_for_MAGICAL.R) to show how to prepare the necessary input files from the single cell multiomics data for use with MAGICAL. The script includes code to extract needed information from Seurat processed scRNA-seq data and ArchR or Signac processed scATAC-seq data. 
 
 
 #### **Cell type**
