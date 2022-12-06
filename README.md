@@ -1,7 +1,7 @@
 
 # PBMC single cell multiomics data
 
-We provide download links for the newly generated single cell datasets used in the paper "***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***". The PBMC scRNA-seq and scATAC-seq data of *S. aureus* infected subjects and uninfected controls were processed using Seurat and ArchR. The PBMC scATAC-seq data of mild COVID-19 subjects and uninfected controls were processed using ArchR. 
+Data from scRNA-seq and scATAC-seq used in the paper "***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***" have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). The scRNA-seq data were processed using Seurat. The scATAC-seq data were processed using ArchR. Users can download processed datasets below:
 
   * The Seurat R object of the intergated ***S. aureus*** scRNA-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/MRSA-MSSA-CTRL-all-combine-20210908.RData.gz) (15GB). 
   * The ArchR R project (including arrow files) of the integrated ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB).
