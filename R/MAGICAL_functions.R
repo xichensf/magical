@@ -1023,7 +1023,7 @@ MAGICAL_circuits_output<- function(Output_file_path, Candidate_circuits, Circuit
       
       circuit_flag[i]=1
       
-      cat(Candidate_circuits$Genes$gene_symbols[Peak_Gene_index[i,2]],
+      cat(Candidate_circuits$Genes$Gene_symbols[Peak_Gene_index[i,2]],
           Candidate_circuits$Genes$chr[Peak_Gene_index[i,2]],
           Candidate_circuits$Genes$TSS[Peak_Gene_index[i,2]],
           Candidate_circuits$Peaks$chr[Peak_Gene_index[i,1]],
