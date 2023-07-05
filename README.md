@@ -8,9 +8,6 @@ Data from scRNA-seq and scATAC-seq used in the paper ["***Mapping disease regula
   * The ArchR R project (including arrow files) of the integrated **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (7GB).
 
 
-![alt text](https://github.com/xichensf/magical/blob/main/UMAP.png)
-
-
 
 # MAGICAL analysis
 
