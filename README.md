@@ -1,5 +1,5 @@
 
-# PBMC single cell multiomics data
+# PBMC single cell data
 
 The sample-paired scRNA-seq and scATAC-seq data used in the paper ["***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***" (medRxiv 2022)](https://www.medrxiv.org/content/10.1101/2022.12.06.22282077v3) have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). Users can also download processed datasets using the links below:
 
