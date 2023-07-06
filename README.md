@@ -4,8 +4,8 @@
 The sample-paired scRNA-seq and scATAC-seq data used in the paper ["***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***" (medRxiv 2022)](https://www.medrxiv.org/content/10.1101/2022.12.06.22282077v3) have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). Users can also download processed datasets using the links below:
 
   * The Seurat-intergated R object of ***S. aureus*** scRNA-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/MRSA-MSSA-CTRL-all-combine-20210908.RData.gz) (15GB). 
-  * The ArchR-integrated R project (including arrow files) of ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB).
-  * The ArchR-integrated R project (including arrow files) of **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (7GB).
+  * The ArchR-integrated R project of ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB, including arrow files).
+  * The ArchR-integrated R project of **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (7GB, including arrow files).
 
 
 
