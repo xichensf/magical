@@ -572,13 +572,13 @@ TF_activity_T_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, R, R_sa
           aa=-3
         }
         
-        TFA$T_sample[m,s]=aa*sqrt(variance_T[s])+mean_T[s]
+        TFA$T_sample[m,s]=aa*sqrt(abs(variance_T[s]))+mean_T[s]
         
         ATAC_cell_index=which(ATAC_Cell_Sample_vector==s)
-        TFA$T_A[m,ATAC_cell_index]=rnorm(length(ATAC_cell_index))*sqrt(variance_T[s])+TFA$T_sample[m,s]
+        TFA$T_A[m,ATAC_cell_index]=rnorm(length(ATAC_cell_index))*sqrt(abs(variance_T[s]))+TFA$T_sample[m,s]
         
         RNA_cell_index=which(RNA_Cell_Sample_vector==s)
-        TFA$T_R[m,RNA_cell_index]=rnorm(length(RNA_cell_index))*sqrt(variance_T[s])+TFA$T_sample[m,s]
+        TFA$T_R[m,RNA_cell_index]=rnorm(length(RNA_cell_index))*sqrt(abs(variance_T[s]))+TFA$T_sample[m,s]
       }
     }
   }
@@ -607,11 +607,11 @@ TF_peak_binding_B_sampling <- function(A, A_sample, ATAC_Cell_Sample_vector, TFA
     mean_B=((A_sample-B%*%TFA$T_sample+B[,m]%*%t(TFA$T_sample[m,]))%*%TFA$T_sample[m,]*B_prior_var[m]/S+B_prior_mean[,m]*sigma_A_noise)/temp_var
     vairance_B=B_prior_var[m]*sigma_A_noise/temp_var
     
-    bb=rnorm(P)
-    bb[which(bb-3>0)]=3
-    bb[which(bb+3<0)]=-3
+    bb = rnorm(P)
+    bb[which(bb-3 > 0)] = 3
+    bb[which(bb+3 < 0)] = -3
     
-    B[,m]=(bb*sqrt(vairance_B)+mean_B)*B_state[,m]
+    B[,m]=(bb*sqrt(abs(vairance_B))+mean_B)*B_state[,m]
   }
   
   return(B)
@@ -683,18 +683,22 @@ TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample
         
         P1=post_b1/(post_b1+post_b0)
         
-        threshold_c=runif(1)
+        threshold_c = runif(1)
         
-        if (is.na(P1)){
+        if (is.na(P1) || is.nan(P1)){
           P1=0.5
         }
         
-        if (P1<threshold_c){
+        if (P1 < threshold_c){
+          
           B[f,m] = 0
           B_state[f,m] = 0
+          
         }else{
+          
           B[f,m] = B[f,m]
           B_state[f,m] = 1
+          
         }
       } 
       
@@ -703,14 +707,16 @@ TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample
         vairance_B = B_prior_var[m]*sigma_A_noise/temp_var
         
         bb=rnorm(1)
-        if (bb-3>0){
+        
+        if (bb-3 > 0){
           bb=3
         }
-        if (bb+3<0){
+        
+        if (bb+3 < 0){
           bb=-3
         }
         
-        B_temp = bb*sqrt(vairance_B)+mean_B
+        B_temp = bb*sqrt(abs(vairance_B))+mean_B
         
         post_b1 = exp(-(bb^2)/2)*(B_prior_prob[f,m]+0.25)+1e-6
         
@@ -720,20 +726,20 @@ TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample
         
         threshold_c = runif(1)
         
-        if (is.na(P1)){
+        if (is.na(P1) || is.nan(P1)){
           P1=0.5
         }
         
-        if (P1>=threshold_c){
-          
-          B[f,m] = B_temp
-          B_state[f,m] = 1
-          
-        }else{
+        if (P1 < threshold_c){
           
           B[f,m] = 0
           B_state[f,m] = 0
           
+        } else {
+          
+          B[f,m] = B_temp
+          B_state[f,m] = 1          
+  
         }
       }
     }
@@ -779,18 +785,22 @@ Peak_gene_binary_looping_L_state_samping <- function(R, R_sample, RNA_Cell_Sampl
         
         P1=post_l1/(post_l1+post_l0)
         
-        threshold_l=runif(1)
+        threshold_c=runif(1)
         
-        if (is.na(P1)){
+        if (is.na(P1) || is.nan(P1)){
           P1=0.5
         }
         
-        if (P1<threshold_l){
+        if (P1 < threshold_c){
+          
           L[f,g] = 0
           L_state[f,g] = 0
+          
         }else{
+          
           L[f,g] = L[f,g]
           L_state[f,g] = 1
+          
         }
       }
       
@@ -799,37 +809,38 @@ Peak_gene_binary_looping_L_state_samping <- function(R, R_sample, RNA_Cell_Sampl
         mean_L=(sum((R_sample[g,]-temp)*A_estimate[f,])*L_prior_var/S+L_prior_mean[f,g]*sigma_R_noise)/temp_var
         vairance_L=L_prior_var*sigma_R_noise/temp_var
         
-        ll=rnorm(1)
-        if (ll-3>0){
-          ll=3
+        ll = rnorm(1)
+        
+        if (ll-3 > 0){
+          ll = 3
         }
-        if (ll+3<0){
-          ll=-3
+        if (ll+3 < 0){
+          ll = -3
         }
         
-        L_temp = ll*sqrt(vairance_L)+mean_L
+        L_temp = ll*sqrt(abs(vairance_L))+mean_L
         
         post_l1 = exp(-ll^2/2)*(L_prior_prob[f,g]+0.1)+1e-6
         
         post_l0 = exp(-(mean_L)^2/(2*vairance_L))*(1-L_prior_prob[f,g]+0.1)+1e-6
         
-        P1=post_l1/(post_l1+post_l0)
+        P1 = post_l1/(post_l1+post_l0)
         
-        threshold_l=runif(1)
+        threshold_c=runif(1)
         
-        if (is.na(P1)){
+        if (is.na(P1) || is.nan(P1)){
           P1=0.5
         }
         
-        if (P1>=threshold_l){
+        if (P1<threshold_c){
           
-          L[f,g] = L_temp
-          L_state[f,g] = 1
+          L[f,g] = 0
+          L_state[f,g] = 0          
           
         }else{
           
-          L[f,g] = 0
-          L_state[f,g] = 0
+          L[f,g] = L_temp
+          L_state[f,g] = 1
           
         }
       }
@@ -901,7 +912,7 @@ MAGICAL_estimation <- function(loaded_data, Candidate_circuits, Initial_model, i
   for (s in 1:S){
     for (m in 1:M){
       index=which(ATAC_Cell_Sample_vector==s)
-      T_A[m,index]=rnorm(length(index), mean=T_prior_mean[m,s], sd=sqrt(T_prior_var[m,s]))
+      T_A[m,index]=rnorm(length(index), mean=T_prior_mean[m,s], sd=sqrt(abs(T_prior_var[m,s])))
     }
   }#initial values of the hidden TF activity of ATAC cells for each sample
   
@@ -909,7 +920,7 @@ MAGICAL_estimation <- function(loaded_data, Candidate_circuits, Initial_model, i
   for (s in 1:S){
     for (m in 1:M){
       index=which(RNA_Cell_Sample_vector==s)
-      T_R[m,index]=rnorm(length(index), mean=T_prior_mean[m,s], sd=sqrt(T_prior_var[m,s]))
+      T_R[m,index]=rnorm(length(index), mean=T_prior_mean[m,s], sd=sqrt(abs(T_prior_var[m,s])))
     }
   }#initial values of the hidden TF activity of RNA cells for each sample
   
