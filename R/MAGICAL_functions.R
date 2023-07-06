@@ -512,10 +512,16 @@ MAGICAL_initialization <- function(loaded_data, Candidate_circuits){
     B_prob[TF_Peak_index[b,1], TF_Peak_index[b,2]] = 1-mdl$coefficients[2,4]
   }
   B_mean = B_prior
-  B_var = matrix(0, nrow=1, ncol=M)
+  
+  B_var = matrix(0.5, nrow=1, ncol=M)
+  
   for (m in 1:M){
-    B_var[m]=var(B_prior[which(Candidate_TF_Peak_Binding[,m]>0),m])#variance of binding events weights of TF t
-  }
+    if(sum(Candidate_TF_Peak_Binding[,m])>1){
+      B_var[m]=var(B_prior[which(Candidate_TF_Peak_Binding[,m]>0),m])#variance of binding events weights of TF t
+    }else{
+      B_var[m]=0.5
+    }
+
   
   
   # Peak-Gene looping prior
