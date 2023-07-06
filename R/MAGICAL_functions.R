@@ -685,7 +685,7 @@ TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample
         
         threshold_c=runif(1)
         
-        if (is.nan(P1)){
+        if (is.na(P1)){
           P1=0.5
         }
         
@@ -720,7 +720,7 @@ TF_peak_binary_binding_B_state_sampling <-function(A, A_sample, ATAC_Cell_Sample
         
         threshold_c = runif(1)
         
-        if (is.nan(P1)){
+        if (is.na(P1)){
           P1=0.5
         }
         
@@ -781,7 +781,7 @@ Peak_gene_binary_looping_L_state_samping <- function(R, R_sample, RNA_Cell_Sampl
         
         threshold_l=runif(1)
         
-        if (is.nan(P1)){
+        if (is.na(P1)){
           P1=0.5
         }
         
@@ -817,7 +817,7 @@ Peak_gene_binary_looping_L_state_samping <- function(R, R_sample, RNA_Cell_Sampl
         
         threshold_l=runif(1)
         
-        if (is.nan(P1)){
+        if (is.na(P1)){
           P1=0.5
         }
         
