@@ -521,7 +521,7 @@ MAGICAL_initialization <- function(loaded_data, Candidate_circuits){
     }else{
       B_var[m]=0.5
     }
-
+   }
   
   
   # Peak-Gene looping prior
