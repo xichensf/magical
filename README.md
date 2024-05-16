@@ -114,9 +114,7 @@ loaded_data <- Data_loading(Candidate_gene_file_path, Candidate_peak_file_path,
                             scRNA_readcount_file_path, scRNA_gene_file_path, scRNA_cellmeta_file_path,
                             scATAC_readcount_file_path, scATAC_peak_file_path, scATAC_cellmeta_file_path,
                             Motif_mapping_file_path, Motif_name_file_path, Ref_seq_file_path)
-```
 
-```diff
 # loading all input data ...
 
 # We detected 2 conditions from the meta file.
@@ -163,9 +161,7 @@ MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility a
 source('R/MAGICAL_functions.R')
 
 Circuits_linkage_posterior<-MAGICAL_estimation(loaded_data, Candidate_circuits, Initial_model, iteration_num = 1000)
-```
 
-```diff
 # MAGICAL finished 10 percent
 
 # MAGICAL finished 20 percent
@@ -193,9 +189,7 @@ Finally, optimized circuits fitting the variation in both modalities are selecte
 ```
 MAGICAL_circuits_output(Output_file_path = 'MAGICAL_selected_regulatory_circuits.txt', 
                         Candidate_circuits, Circuits_linkage_posterior)
-```
 
-```diff
 # MAGICAL selected regulatory circuits with 90 TFs, 249 peaks and 225 genes.
 ```
 ## Contact
