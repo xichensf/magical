@@ -20,9 +20,6 @@ MAGICAL (Multiome Accessible Gene Integration Calling And Looping) is a hierarch
 
 
 
-
-
-
 ## MAGICAL input
 
 MAGICAL only requires gene symbols, peak coordinates, read count and cell meta information (including cell type, sample/subject ID and sample group/condition). These information are very fundamental and can be easily obtained from any single cell multioimc dataset. We provide a script [Multiomics_input_for_MAGICAL.R](https://github.com/xichensf/magical/blob/main/Multiomics_input_for_MAGICAL.R) to show how to prepare the necessary input files from the single cell multiomics data for use with MAGICAL. The script includes code to extract needed information from Seurat processed scRNA-seq data and ArchR or Signac processed scATAC-seq data. 
@@ -158,9 +155,6 @@ Candidate_circuits <- Candidate_circuits_construction_without_TAD(loaded_data, d
 Initial_model<-MAGICAL_initialization(loaded_data, Candidate_circuits)
 ```
 
-```
-MAGICAL model initialization ...
-```
 #### **Infer circuit linkages** 
 MAGICAL uses a Bayesian framework to iteratively model chromatin accessibility and gene expression variation across cells and conditions and estimate the strength of the circuit TF-peak-gene linkages. The TF-peak binding confidence and the hidden TF activity are optimized to fit to the chromatin accessibility data. The estimated TF binding strength, TF activity and the input gene expression data are used to infer the peak-gene looping. The updated states of TF-peak-gene linkages based on the estimated strength are used to initialize the next round of estimations. 
 
