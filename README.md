@@ -1,14 +1,3 @@
-
-# PBMC single cell data
-
-The sample-paired scRNA-seq and scATAC-seq data used in the paper ***Xi Chen et al., Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***, [*Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5) have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). Users can also download processed datasets using the links below:
-
-  * The Seurat-intergated R object of ***S. aureus*** scRNA-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/MRSA-MSSA-CTRL-all-combine-20210908.RData.gz) (15GB). 
-  * The ArchR-integrated R project of ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB, including arrow files).
-  * The ArchR-integrated R project of **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (7GB, including arrow files).
-
-
-
 # MAGICAL analysis
 
 MAGICAL (Multiome Accessible Gene Integration Calling And Looping) is a hierarchical Bayesian approach that leverages paired scRNA-seq and scATAC-seq data from different conditions to map disease-associated transcription factors, chromatin sites, and genes as regulatory circuits. By simultaneously modeling signal variation across cells and conditions in both omics data types, MAGICAL achieved high accuracy on circuit inference. 
@@ -192,7 +181,19 @@ MAGICAL_circuits_output(Output_file_path = 'MAGICAL_selected_regulatory_circuits
 
 # MAGICAL selected regulatory circuits with 90 TFs, 249 peaks and 225 genes.
 ```
+
+# Reference
+***Xi Chen et al., Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***, [*Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5).
+
+# Human PBMC single cell multiomics data
+The sample-paired scRNA-seq and scATAC-seq data used in the paper have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). 
+
+Users can also download datasets used in the papaer using the links below:
+  * The Seurat-intergated R object of ***S. aureus*** scRNA-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/MRSA-MSSA-CTRL-all-combine-20210908.RData.gz) (15GB). 
+  * The ArchR-integrated R project of ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB, including arrow files).
+  * The ArchR-integrated R project of **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (7GB, including arrow files).
+
+
+
 ## Contact
-Questions about scATAC-seq data processing and MAGICAL can be emailed to Xi Chen (<xchen@flatironinstitute.org>).
-Questions about scRNA-seq data processing can be emailed to Yuan Wang (<yuanwang@cs.princeton.edu>).
-Other questions about our work should be emailed to Olga G. Troyanskaya (<ogt@genomics.princeton.edu>) and Stuart C. Sealfon (<stuart.sealfon@mssm.edu>).
+Questions regarding the single cell multiome data and MAGICAL framework can be emailed to Xi Chen (<xchen@flatironinstitute.org>) and Yuan Wang (<yuanwang@cs.princeton.edu>). Other questions about our work should be emailed to Olga G. Troyanskaya (<ogt@genomics.princeton.edu>) and Stuart C. Sealfon (<stuart.sealfon@mssm.edu>).
