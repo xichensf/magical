@@ -76,6 +76,16 @@ In case no proper TAD information or HiC profile is available for the context be
 A demo (~10mins run):
 
 ```
+source('MAGICAL_functions.R')
+
+library(Matrix)
+library(dplyr)
+
+
+```
+
+
+```
 loading all input data ...
 
 We detected 2 conditions from the meta file.
