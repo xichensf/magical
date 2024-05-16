@@ -194,7 +194,7 @@ Users can also download datasets used in the papaer using the links below:
 
 
 ## Reference
-Xi Chen et al., ***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***, [Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5).
+Xi Chen et al., **Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data**, [*Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5).
 
 
 
