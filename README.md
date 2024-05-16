@@ -148,6 +148,8 @@ Or
 Candidate_circuits <- Candidate_circuits_construction_without_TAD(loaded_data, distance_control)
 ```
 
+Then
+
 ```
 #Model initialization
 Initial_model<-MAGICAL_initialization(loaded_data, Candidate_circuits)
