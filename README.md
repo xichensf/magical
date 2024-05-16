@@ -105,7 +105,6 @@ distance_control=5e5
 
 # Refseq file for transcription starting site extraction
 Ref_seq_file_path = 'Demo input files/hg38_Refseq.txt'
-
 ```
 
 Load data:
@@ -147,7 +146,6 @@ Or
 ```
 #Candidate circuits construction without TAD
 Candidate_circuits <- Candidate_circuits_construction_without_TAD(loaded_data, distance_control)
-
 ```
 
 ```
