@@ -116,8 +116,8 @@ loaded_data <- Data_loading(Candidate_gene_file_path, Candidate_peak_file_path,
                             Motif_mapping_file_path, Motif_name_file_path, Ref_seq_file_path)
 ```
 
-```
-loading all input data ...
+```diff
+-loading all input data ...
 
 We detected 2 conditions from the meta file.
 
