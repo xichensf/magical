@@ -182,8 +182,11 @@ MAGICAL_circuits_output(Output_file_path = 'MAGICAL_selected_regulatory_circuits
 # MAGICAL selected regulatory circuits with 90 TFs, 249 peaks and 225 genes.
 ```
 
+
 # Reference
 ***Xi Chen et al., Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***, [*Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5).
+
+
 
 # Human PBMC single cell multiomics data
 The sample-paired scRNA-seq and scATAC-seq data used in the paper have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). 
@@ -195,5 +198,5 @@ Users can also download datasets used in the papaer using the links below:
 
 
 
-## Contact
+# Contact
 Questions regarding the single cell multiome data and MAGICAL framework can be emailed to Xi Chen (<xchen@flatironinstitute.org>) and Yuan Wang (<yuanwang@cs.princeton.edu>). Other questions about our work should be emailed to Olga G. Troyanskaya (<ogt@genomics.princeton.edu>) and Stuart C. Sealfon (<stuart.sealfon@mssm.edu>).
