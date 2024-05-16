@@ -183,18 +183,19 @@ MAGICAL_circuits_output(Output_file_path = 'MAGICAL_selected_regulatory_circuits
 ```
 
 
-# Reference
-***Xi Chen et al., Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***, [*Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5).
 
-
-
-# Human PBMC single cell multiomics data
-The sample-paired scRNA-seq and scATAC-seq data used in the paper have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). 
+## Human PBMC single cell multiomics data
+The sample-paired scRNA-seq and scATAC-seq data used in the MAGICAL paper have been deposited with the Gene Expression Omnibus under accession no. [GSE220190](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE220190). 
 
 Users can also download datasets used in the papaer using the links below:
   * The Seurat-intergated R object of ***S. aureus*** scRNA-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/MRSA-MSSA-CTRL-all-combine-20210908.RData.gz) (15GB). 
   * The ArchR-integrated R project of ***S. aureus*** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/Staph_scATAC_integration.tar.gz) (34GB, including arrow files).
   * The ArchR-integrated R project of **COVID-19** scATAC-seq data can be downloaded [here](https://wisp.princeton.edu/media/magical/COVID19_scATAC_integration.tar.gz) (7GB, including arrow files).
+
+
+## Reference
+Xi Chen et al., ***Mapping disease regulatory circuits at cell-type resolution from single-cell multiomics data***, [Nature Computational Science*, 3:644–657, (2023)](https://www.nature.com/articles/s43588-023-00476-5).
+
 
 
 
