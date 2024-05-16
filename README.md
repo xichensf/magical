@@ -143,9 +143,11 @@ To identify candidate disease-modulated triads, candidate chromatin sites are as
 ```
 #Candidate circuits construction with TAD
 Candidate_circuits <- Candidate_circuits_construction_with_TAD(loaded_data, TAD_file_path)
+```
 
 Or
 
+```
 #Candidate circuits construction without TAD
 Candidate_circuits <- Candidate_circuits_construction_without_TAD(loaded_data, distance_control)
 
