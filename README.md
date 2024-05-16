@@ -117,17 +117,17 @@ loaded_data <- Data_loading(Candidate_gene_file_path, Candidate_peak_file_path,
 ```
 
 ```diff
--loading all input data ...
+- loading all input data ...
 
-We detected 2 conditions from the meta file.
+- We detected 2 conditions from the meta file.
 
-The input scRNAseq data includes 36601 genes, 13248 cells from 12 samples/subecjts.
+- The input scRNAseq data includes 36601 genes, 13248 cells from 12 samples/subecjts.
 
-The input scATACseq data includes 144387 peaks, 13248 cells from 12 samples/subecjts.
+- The input scATACseq data includes 144387 peaks, 13248 cells from 12 samples/subecjts.
 
-There are paired data for 12 samples/subecjts. (check sample IDs if this number is lower than expected)
+- There are paired data for 12 samples/subecjts. (check sample IDs if this number is lower than expected)
 
-870 motifs, 945 candidate chromatin sites and 1143 candidate genes are provided.
+- 870 motifs, 945 candidate chromatin sites and 1143 candidate genes are provided.
 ```
 
 
