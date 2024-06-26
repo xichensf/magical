@@ -155,7 +155,7 @@ Candidate_circuits_construction_with_TAD <- function(loaded_data, TAD_file_path)
   TF_pct_in_candidate_Peaks<-colSums(Candidate_TF_Peak_Binding)/nrow(Candidate_Peaks)
   TF_pct_in_all_Peaks<-colSums(TF_Peak_binding_matrix)/nrow(scATAC_Peaks)
   TF_enrichment_FC<-TF_pct_in_candidate_Peaks/TF_pct_in_all_Peaks
-  TF_index<-which(TF_pct_in_candidate_Peaks>0.05 & TF_num>30 & TF_enrichment_FC>1.2)
+  TF_index<-which(TF_pct_in_candidate_Peaks>0.05 & TF_num>30 & TF_enrichment_FC>0.8)
   if (length(TF_index) == 0){
     print('Too few Peaks with TF binding sites.')
     print('MAGICAL not applicable to this cell type!')
@@ -334,7 +334,7 @@ Candidate_circuits_construction_without_TAD <- function(loaded_data, distance_co
   TF_pct_in_candidate_Peaks<-colSums(Candidate_TF_Peak_Binding)/nrow(Candidate_Peaks)
   TF_pct_in_all_Peaks<-colSums(TF_Peak_binding_matrix)/nrow(scATAC_Peaks)
   TF_enrichment_FC<-TF_pct_in_candidate_Peaks/TF_pct_in_all_Peaks
-  TF_index<-which(TF_pct_in_candidate_Peaks>0.05 & TF_num>30 & TF_enrichment_FC>1.2)
+  TF_index<-which(TF_pct_in_candidate_Peaks>0.05 & TF_num>30 & TF_enrichment_FC>0.8)
   if (length(TF_index) == 0){
     print('Too few Peaks with TF binding sites.')
     print('MAGICAL not applicable to this cell type!')
