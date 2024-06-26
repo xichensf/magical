@@ -28,7 +28,7 @@ TF_enrichment_FC=zeros(1,length(length(Motifs.name)));
 for m=1:length(Motifs.name)
     TF_enrichment_FC(m)=(TF_num(m)/length(Candidate_peaks.peak_index))/(sum(TF_peak_binding_matrix(:,m))/length(scATAC_peaks.peak_index));
 end
-TF_index=find(TF_pct>0.05 & TF_num>30 & TF_enrichment_FC>1.2);
+TF_index=find(TF_pct>0.05 & TF_num>30 & TF_enrichment_FC>0.8);
 
 if ~isempty(TF_index)
     Candidate_TFs=Motifs.name(TF_index);
